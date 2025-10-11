@@ -9,14 +9,59 @@ public partial class Poring : CharacterBody2D
     public override void _Draw() => DrawCircle(Vector2.Zero, _size / 2, _color);
 
     [Node] private Area2D _visionArea2D = null!;
+    private Player? _player;
 
-    private void _on_vision_area_2d_body_entered(Node2D body)
+    // 追跡パラメータ
+    private float _maxSpeed = 80f;           // 追跡速度
+    private float _minDistance = 16f;        // Playerとの最小距離
+    private float _slowDistance = 48f;       // 減速開始距離
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+
+        if (_player == null)
+        {
+            return;
+        }
+
+        float distance = _player.Position.DistanceTo(Position);
+        if (distance < _minDistance)
+        {
+            Velocity = Vector2.Zero;
+        }
+        else
+        {
+            // 減速計算
+            float speedFactor = 1f;
+            if (distance < _slowDistance)
+            {
+                speedFactor = distance / _slowDistance; // 近づくほど減速
+            }
+
+            Vector2 toPlayer = _player.Position - Position;
+            Vector2 direction = toPlayer.Normalized();
+            Velocity = direction * _maxSpeed * speedFactor;
+            MoveAndSlide();
+        }
+    }
+
+    private void _on_vision_area_2d_body_entered(Node body)
     {
         if (body.IsInGroup("Player"))
         {
-            var player = body as Player;
-            Position = player.Position;
-            GD.Print("Playerが視野に入りました！");
+            _player = body as Player;
+        }
+    }
+
+    private void _on_vision_area_2d_body_exited(Node body)
+    {
+        if (body.IsInGroup("Player"))
+        {
+            _player = null;
         }
     }
 }

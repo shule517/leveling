@@ -18,16 +18,16 @@ public partial class Player : CharacterBody2D
         }
 
         // スティック入力を取得（左スティック）
-        float horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
-        float vertical = Input.GetJoyAxis(0, JoyAxis.LeftY);
+        var horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
+        var vertical = Input.GetJoyAxis(0, JoyAxis.LeftY);
 
         // スティックの遊び（デッドゾーン）を考慮
-        const float deadzone = 0.2f;
+        var deadzone = 0.2f;
         if (Mathf.Abs(horizontal) < deadzone) horizontal = 0;
         if (Mathf.Abs(vertical) < deadzone) vertical = 0;
 
         // GodotではY軸が下方向なので反転
-        Vector2 inputVector = new Vector2(horizontal, vertical);
+        var inputVector = new Vector2(horizontal, vertical);
         Velocity = inputVector.Normalized() * Speed;
 
         MoveAndSlide();
