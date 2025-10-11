@@ -11,9 +11,6 @@ public partial class Poring : CharacterBody2D
 {
     private int _hp = 5;
 
-    private float _size = 16;
-    private Color _color = new Color("f27d73");
-
     private Player? _player;
     [Node] private Timer _attackTimer = null!;
 
@@ -30,7 +27,11 @@ public partial class Poring : CharacterBody2D
     private float _minDistance = 16f;  // Playerとの最小距離
     private float _slowDistance = 48f; // 減速開始距離
 
+    // 描画
+    private float _size = 16;
+    private Color _color = new Color("f27d73");
     public override void _Draw() => DrawCircle(Vector2.Zero, _size / 2, _color, filled: IsDamage);
+
     public override void _Ready() => this.BindNodes();
 
     public override void _PhysicsProcess(double delta)
