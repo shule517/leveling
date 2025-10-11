@@ -1,8 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://crotkx3v2f8li"]
+[gd_scene load_steps=4 format=3 uid="uid://crotkx3v2f8li"]
 
 [ext_resource type="Script" uid="uid://bray532tk5x8s" path="res://player/Player.cs" id="1_oul6g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oul6g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rkbax"]
+radius = 48.010414
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_oul6g")
@@ -13,3 +16,11 @@ position_smoothing_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oul6g")
+
+[node name="AttackArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea2D"]
+shape = SubResource("CircleShape2D_rkbax")
+
+[connection signal="body_entered" from="AttackArea2D" to="." method="_on_attack_area_2d_body_entered"]
+[connection signal="body_exited" from="AttackArea2D" to="." method="_on_attack_area_2d_body_exited"]

@@ -1,5 +1,6 @@
 namespace leveling.player;
 
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using lib.extensions;
@@ -50,17 +51,14 @@ public partial class Player : CharacterBody2D
     // 通常攻撃
     private void AttackNormal()
     {
-        GD.Print("AttackNormal!");
-        var monster = GetTree().GetNodesInGroup("Monster").OfType<Poring>().OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
+        var monster = _attackMonsters.OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
         monster?.Damage(1);
     }
 
     // 範囲攻撃
     private void AttackArea()
     {
-        GD.Print("AttackArea!");
-        var monsters = GetTree().GetNodesInGroup("Monster").OfType<Poring>();
-        foreach (var monster in monsters)
+        foreach (var monster in _attackMonsters)
         {
             monster.Damage(1);
         }
@@ -76,5 +74,16 @@ public partial class Player : CharacterBody2D
         _hp -= damage;
         GD.Print($"_hp: #{_hp}");
         if (_hp <= 0) { QueueFree(); }
+    }
+
+    private readonly List<Poring> _attackMonsters = new();
+    private void _on_attack_area_2d_body_entered(Node2D body)
+    {
+        if (body is Poring poring) { _attackMonsters.Add(poring); }
+    }
+
+    private void _on_attack_area_2d_body_exited(Node2D body)
+    {
+        if (body is Poring poring) { _attackMonsters.Remove(poring); }
     }
 }
