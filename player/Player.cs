@@ -16,7 +16,8 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (Engine.IsEditorHint()) { return; }
-        if (Input.IsActionJustPressed("button_y")) { Attack(); }
+        if (Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+        if (Input.IsActionJustPressed("button_b")) { AttackArea(); }
 
         // スティック入力を取得（左スティック）
         var horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
@@ -34,10 +35,22 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 
-    private void Attack()
+    // 通常攻撃
+    private void AttackNormal()
     {
-        GD.Print("Attack!");
+        GD.Print("AttackNormal!");
         var monster = GetTree().GetNodesInGroup("Monster").OfType<Poring>().OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
         monster?.Damage(1);
+    }
+
+    // 範囲攻撃
+    private void AttackArea()
+    {
+        GD.Print("AttackArea!");
+        var monsters = GetTree().GetNodesInGroup("Monster").OfType<Poring>();
+        foreach (var monster in monsters)
+        {
+            monster.Damage(1);
+        }
     }
 }
