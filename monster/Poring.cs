@@ -75,7 +75,7 @@ public partial class Poring : CharacterBody2D
     }
 
     private bool _isChasing;
-    private void _on_vision_area_2d_body_entered(Node body)
+    private void _on_vision_area_2d_body_entered(Node2D body)
     {
         if (body is Player player)
         {
@@ -84,12 +84,12 @@ public partial class Poring : CharacterBody2D
         }
     }
 
-    private void _on_vision_area_2d_body_exited(Node body)
+    private void _on_vision_area_2d_body_exited(Node2D body)
     {
         if (body is Player) { _isChasing = false; }
     }
 
-    private void _on_atack_area_2d_body_entered(Node body)
+    private void _on_attack_area_2d_body_entered(Node2D body)
     {
         if (body is Player player)
         {
@@ -99,11 +99,11 @@ public partial class Poring : CharacterBody2D
         }
     }
 
-    private void _on_atack_area_2d_body_exited(Node body)
+    private void _on_attack_area_2d_body_exited(Node2D body)
     {
         // タイマーを停止する
         if (body is Player) { _attackTimer.Stop(); }
     }
 
-    private void _on_atack_timer_timeout() => _player?.Damage(1);
+    private void _on_attack_timer_timeout() => _player?.Damage(1);
 }
