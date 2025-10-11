@@ -22,9 +22,9 @@ public partial class Player : CharacterBody2D
         var vertical = Input.GetJoyAxis(0, JoyAxis.LeftY);
 
         // スティックの遊び（デッドゾーン）を考慮
-        var deadzone = 0.2f;
-        if (Mathf.Abs(horizontal) < deadzone) horizontal = 0;
-        if (Mathf.Abs(vertical) < deadzone) vertical = 0;
+        var deadZone = 0.2f;
+        if (Mathf.Abs(horizontal) < deadZone) { horizontal = 0; }
+        if (Mathf.Abs(vertical) < deadZone) { vertical = 0; }
 
         // GodotではY軸が下方向なので反転
         var inputVector = new Vector2(horizontal, vertical);

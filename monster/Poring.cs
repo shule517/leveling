@@ -28,7 +28,7 @@ public partial class Poring : CharacterBody2D
             return;
         }
 
-        float distance = _player.Position.DistanceTo(Position);
+        var distance = _player.Position.DistanceTo(Position);
         if (distance < _minDistance)
         {
             Velocity = Vector2.Zero;
@@ -36,14 +36,14 @@ public partial class Poring : CharacterBody2D
         else
         {
             // 減速計算
-            float speedFactor = 1f;
+            var speedFactor = 1f;
             if (distance < _slowDistance)
             {
                 speedFactor = distance / _slowDistance; // 近づくほど減速
             }
 
-            Vector2 toPlayer = _player.Position - Position;
-            Vector2 direction = toPlayer.Normalized();
+            var toPlayer = _player.Position - Position;
+            var direction = toPlayer.Normalized();
             Velocity = direction * _maxSpeed * speedFactor;
             MoveAndSlide();
         }
