@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://crotkx3v2f8li"]
+[gd_scene load_steps=3 format=3 uid="uid://crotkx3v2f8li"]
 
 [ext_resource type="Script" uid="uid://bray532tk5x8s" path="res://player/Player.cs" id="1_oul6g"]
 
-[node name="Player" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_oul6g"]
+
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_oul6g")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oul6g")

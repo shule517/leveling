@@ -1,13 +1,36 @@
 using Godot;
 using System;
 
-public partial class Player : Node2D
+[Tool]
+public partial class Player : CharacterBody2D
 {
-    [Export] public float Size = 16;
-    [Export] public Color Color = new Color(0.9f, 0.2f, 0.2f);
+    private float _size = 16;
+    private Color _color = new Color(0.9f, 0.2f, 0.2f);
 
-    public override void _Draw()
+    public override void _Draw() => DrawRect(new Rect2(Vector2.Zero, new Vector2(_size, _size)), _color, filled: false);
+
+    [Export] public float Speed = 200f; // 移動速度
+
+    public override void _PhysicsProcess(double delta)
     {
-        DrawRect(new Rect2(Vector2.Zero, new Vector2(Size, Size)), Color);
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+
+        // スティック入力を取得（左スティック）
+        float horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
+        float vertical = Input.GetJoyAxis(0, JoyAxis.LeftY);
+
+        // スティックの遊び（デッドゾーン）を考慮
+        const float deadzone = 0.2f;
+        if (Mathf.Abs(horizontal) < deadzone) horizontal = 0;
+        if (Mathf.Abs(vertical) < deadzone) vertical = 0;
+
+        // GodotではY軸が下方向なので反転
+        Vector2 inputVector = new Vector2(horizontal, vertical);
+        Velocity = inputVector.Normalized() * Speed;
+
+        MoveAndSlide();
     }
 }
