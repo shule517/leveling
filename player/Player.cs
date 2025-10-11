@@ -6,9 +6,9 @@ public partial class Player : CharacterBody2D
 {
     private float _size = 16;
     private Color _color = new Color(0.9f, 0.2f, 0.2f);
-    public override void _Draw() => DrawRect(new Rect2(Vector2.Zero, new Vector2(_size, _size)), _color, filled: false);
+    public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: false);
 
-    [Export] public float Speed = 200f; // 移動速度
+    [Export] public float Speed = 130f; // 移動速度
 
     public override void _PhysicsProcess(double delta)
     {
