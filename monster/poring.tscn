@@ -1,11 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwvliqcfpxfta"]
+[gd_scene load_steps=5 format=3 uid="uid://bwvliqcfpxfta"]
 
 [ext_resource type="Script" uid="uid://deisec3m7jd8u" path="res://monster/Poring.cs" id="1_4b2d1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rurpn"]
+radius = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4b2d1"]
 radius = 223.14345
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c0jwa"]
+radius = 84.59315
 
 [node name="Poring" type="CharacterBody2D" groups=["Monster"]]
 script = ExtResource("1_4b2d1")
@@ -18,5 +22,12 @@ shape = SubResource("CircleShape2D_rurpn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea2D"]
 shape = SubResource("CircleShape2D_4b2d1")
 
+[node name="AtackArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AtackArea2D"]
+shape = SubResource("CircleShape2D_c0jwa")
+
 [connection signal="body_entered" from="VisionArea2D" to="." method="_on_vision_area_2d_body_entered"]
 [connection signal="body_exited" from="VisionArea2D" to="." method="_on_vision_area_2d_body_exited"]
+[connection signal="body_entered" from="AtackArea2D" to="." method="_on_atack_area_2d_body_entered"]
+[connection signal="body_exited" from="AtackArea2D" to="." method="_on_atack_area_2d_body_exited"]

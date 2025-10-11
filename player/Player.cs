@@ -2,14 +2,26 @@ namespace leveling.player;
 
 using System.Linq;
 using Godot;
+using lib.extensions;
 using monster;
 
 [Tool]
 public partial class Player : CharacterBody2D
 {
+    private int _hp = 10;
+
     private float _size = 16;
     private Color _color = new Color(0.9f, 0.2f, 0.2f);
-    public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: false);
+
+    // ダメージ判定
+    private bool _isDamage;
+    private bool IsDamage
+    {
+        get => _isDamage;
+        set { _isDamage = value; QueueRedraw(); }
+    }
+
+    public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: IsDamage);
 
     [Export] public float Speed = 130f; // 移動速度
 
@@ -52,5 +64,17 @@ public partial class Player : CharacterBody2D
         {
             monster.Damage(1);
         }
+    }
+
+    public async void Damage(int damage)
+    {
+        // 点滅
+        IsDamage = true;
+        await this.WaitSeconds(0.1f);
+        IsDamage = false;
+
+        _hp -= damage;
+        GD.Print($"_hp: #{_hp}");
+        if (_hp <= 0) { QueueFree(); }
     }
 }

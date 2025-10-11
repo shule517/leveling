@@ -7,6 +7,13 @@ using Godot;
 
 public static class NodeExtensions
 {
+    // 例) await this.WaitSeconds(0.1f);
+    public static SignalAwaiter WaitSeconds(this Node me, float seconds)
+    {
+        var timer = me.GetTree().CreateTimer(seconds);
+        return me.ToSignal(timer, "timeout");
+    }
+
     public static void AutoLoad(this Node me)
     {
         var assembly = Assembly.GetExecutingAssembly();

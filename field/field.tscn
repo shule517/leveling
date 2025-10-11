@@ -6,6 +6,96 @@
 [node name="Field" type="Node2D"]
 script = ExtResource("1_cbr7w")
 
+[node name="Poring36" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(518, 188)
+
+[node name="Poring37" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(588, 230)
+
+[node name="Poring38" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(556, 393)
+
+[node name="Poring39" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(807, 294)
+
+[node name="Poring40" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(857, 466)
+
+[node name="Poring31" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(31, 896)
+
+[node name="Poring32" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(101, 938)
+
+[node name="Poring33" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(69, 1101)
+
+[node name="Poring34" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(320, 1002)
+
+[node name="Poring35" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(370, 1174)
+
+[node name="Poring26" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(503, 616)
+
+[node name="Poring27" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(573, 658)
+
+[node name="Poring28" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(541, 821)
+
+[node name="Poring29" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(792, 722)
+
+[node name="Poring30" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(842, 894)
+
+[node name="Poring21" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1527, 457)
+
+[node name="Poring22" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1597, 499)
+
+[node name="Poring23" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1565, 662)
+
+[node name="Poring24" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1816, 563)
+
+[node name="Poring25" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1866, 735)
+
+[node name="Poring16" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1204, 730)
+
+[node name="Poring17" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1274, 772)
+
+[node name="Poring18" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1242, 935)
+
+[node name="Poring19" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1493, 836)
+
+[node name="Poring20" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1543, 1008)
+
+[node name="Poring11" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(874, 1177)
+
+[node name="Poring12" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(944, 1219)
+
+[node name="Poring13" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(912, 1382)
+
+[node name="Poring14" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1163, 1283)
+
+[node name="Poring15" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1213, 1455)
+
 [node name="Poring" parent="." instance=ExtResource("2_fyubv")]
 position = Vector2(33, 31)
 
@@ -20,3 +110,18 @@ position = Vector2(322, 137)
 
 [node name="Poring5" parent="." instance=ExtResource("2_fyubv")]
 position = Vector2(372, 309)
+
+[node name="Poring6" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1032, 164)
+
+[node name="Poring7" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1102, 206)
+
+[node name="Poring8" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1070, 369)
+
+[node name="Poring9" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1321, 270)
+
+[node name="Poring10" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(1371, 442)

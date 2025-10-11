@@ -1,5 +1,6 @@
 namespace leveling.monster;
 using Godot;
+using lib.extensions;
 using player;
 
 [Tool]
@@ -14,30 +15,23 @@ public partial class Poring : CharacterBody2D
 
     // ダメージ判定
     private bool _isDamage;
-    private float _damageFlashTime = 0.1f; // 点滅の長さ（秒）
-    private float _damageTimer;
+    private bool IsDamage
+    {
+        get => _isDamage;
+        set { _isDamage = value; QueueRedraw(); }
+    }
 
     // 追跡パラメータ
     private float _maxSpeed = 80f;     // 追跡速度
     private float _minDistance = 16f;  // Playerとの最小距離
     private float _slowDistance = 48f; // 減速開始距離
 
-    public override void _Draw() => DrawCircle(Vector2.Zero, _size / 2, _color, filled: _isDamage);
+    public override void _Draw() => DrawCircle(Vector2.Zero, _size / 2, _color, filled: IsDamage);
 
     public override void _PhysicsProcess(double delta)
     {
         if (Engine.IsEditorHint()) { return; }
         if (_player == null) { return; }
-
-        if (_isDamage)
-        {
-            _damageTimer -= (float)delta;
-            if (_damageTimer <= 0)
-            {
-                _isDamage = false;
-                QueueRedraw(); // 色を戻す再描画
-            }
-        }
 
         var distance = _player.Position.DistanceTo(Position);
         if (distance < _minDistance)
@@ -60,12 +54,12 @@ public partial class Poring : CharacterBody2D
         }
     }
 
-    public void Damage(int damage)
+    public async void Damage(int damage)
     {
-        _damageTimer = _damageFlashTime;
-        _isDamage = true;
-        GD.Print($"Poring Damage: {_isDamage}");
-        QueueRedraw();
+        // 点滅
+        IsDamage = true;
+        await this.WaitSeconds(0.1f);
+        IsDamage = false;
 
         _hp -= damage;
         if (_hp <= 0) { QueueFree(); }
@@ -79,5 +73,15 @@ public partial class Poring : CharacterBody2D
     private void _on_vision_area_2d_body_exited(Node body)
     {
         if (body is Player) { _player = null; }
+    }
+
+    private void _on_atack_area_2d_body_entered(Node body)
+    {
+        if (body is Player player) { player.Damage(1); }
+    }
+
+    private void _on_atack_area_2d_body_exited(Node body)
+    {
+        // if (body is Player) { _player = null; }
     }
 }
