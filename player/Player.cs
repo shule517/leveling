@@ -1,5 +1,8 @@
 namespace leveling.player;
+
+using System.Linq;
 using Godot;
+using monster;
 
 [Tool]
 public partial class Player : CharacterBody2D
@@ -12,10 +15,8 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Engine.IsEditorHint())
-        {
-            return;
-        }
+        if (Engine.IsEditorHint()) { return; }
+        if (Input.IsActionJustPressed("button_y")) { Attack(); }
 
         // スティック入力を取得（左スティック）
         var horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
@@ -31,5 +32,12 @@ public partial class Player : CharacterBody2D
         Velocity = inputVector.Normalized() * Speed;
 
         MoveAndSlide();
+    }
+
+    private void Attack()
+    {
+        GD.Print("Attack!");
+        var monster = GetTree().GetNodesInGroup("Monster").OfType<Poring>().FirstOrDefault();
+        monster?.Damage(1);
     }
 }
