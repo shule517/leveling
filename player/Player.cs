@@ -2,6 +2,7 @@ namespace leveling.player;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using lib.extensions;
 using monster;
@@ -28,11 +29,14 @@ public partial class Player : CharacterBody2D
 
     [Export] public float Speed = 130f; // 移動速度
 
+    private bool _canAttackNormal = true;
+    private bool _canAttackArea = true;
+
     public override void _PhysicsProcess(double delta)
     {
         if (Engine.IsEditorHint()) { return; }
-        if (Input.IsActionJustPressed("button_y")) { AttackNormal(); }
-        if (Input.IsActionJustPressed("button_b")) { AttackArea(); }
+        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+        if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
 
         // スタン中なので移動できない
         if (_isStunned) { return; }
@@ -54,19 +58,27 @@ public partial class Player : CharacterBody2D
     }
 
     // 通常攻撃
-    private void AttackNormal()
+    private async Task AttackNormal()
     {
+        _canAttackNormal = false;
         var monster = _attackMonsters.OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
         monster?.Damage(1);
+
+        await this.WaitSeconds(1.0f);
+        _canAttackNormal = true;
     }
 
     // 範囲攻撃
-    private void AttackArea()
+    private async Task AttackArea()
     {
+        _canAttackArea = false;
         foreach (var monster in _attackMonsters)
         {
             monster.Damage(1);
         }
+
+        await this.WaitSeconds(2.0f);
+        _canAttackArea = true;
     }
 
     public async void Damage(int damage)
