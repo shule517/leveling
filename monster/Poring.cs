@@ -1,4 +1,6 @@
 namespace leveling.monster;
+
+using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
 using lib.extensions;
@@ -63,7 +65,7 @@ public partial class Poring : CharacterBody2D
         }
     }
 
-    public async void Damage(int damage)
+    public async Task Damage(int damage)
     {
         // 点滅
         IsDamage = true;
