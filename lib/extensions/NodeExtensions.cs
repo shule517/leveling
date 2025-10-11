@@ -48,6 +48,7 @@ public static class NodeExtensions
 
             if (attribute.Path == null)
             {
+                // [Node]と指定した場合
                 // 変数名と一致するNodeを取得
                 // _hpProgressBar => HpProgressBarを取得する
                 var fieldName = field.Name.TrimStart('_');
@@ -57,6 +58,7 @@ public static class NodeExtensions
             }
             else
             {
+                // [Node("NodeName")]と指定した場合
                 // 指定されたパスのNodeを取得する
                 var node = me.GetNode<Node>(attribute.Path);
                 if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした: {attribute.Path}"); }
