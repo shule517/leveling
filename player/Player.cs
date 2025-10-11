@@ -37,7 +37,7 @@ public partial class Player : CharacterBody2D
     private void Attack()
     {
         GD.Print("Attack!");
-        var monster = GetTree().GetNodesInGroup("Monster").OfType<Poring>().FirstOrDefault();
+        var monster = GetTree().GetNodesInGroup("Monster").OfType<Poring>().OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
         monster?.Damage(1);
     }
 }
