@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxjc5tb41hg40"]
+[gd_scene load_steps=3 format=3 uid="uid://dxjc5tb41hg40"]
 
 [ext_resource type="Script" uid="uid://t2mhh7vhrfq3" path="res://field/Field.cs" id="1_cbr7w"]
+[ext_resource type="PackedScene" uid="uid://bwvliqcfpxfta" path="res://monster/poring.tscn" id="2_fyubv"]
 
 [node name="Field" type="Node2D"]
 script = ExtResource("1_cbr7w")
+
+[node name="Poring" parent="." instance=ExtResource("2_fyubv")]
+position = Vector2(33, 31)
