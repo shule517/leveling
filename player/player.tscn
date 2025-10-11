@@ -4,8 +4,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oul6g"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_oul6g")
+Speed = 200.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
