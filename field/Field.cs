@@ -1,5 +1,5 @@
+namespace leveling.field;
 using Godot;
-using System;
 
 [Tool]
 public partial class Field : Node2D

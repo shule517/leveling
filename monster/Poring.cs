@@ -1,5 +1,7 @@
+namespace leveling.monster;
 using Godot;
-using System;
+using lib.attributes;
+using player;
 
 [Tool]
 public partial class Poring : CharacterBody2D

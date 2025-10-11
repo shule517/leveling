@@ -1,3 +1,4 @@
+namespace leveling.lib.extensions;
 using System;
 
 public static class IntExtension

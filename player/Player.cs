@@ -1,5 +1,5 @@
+namespace leveling.player;
 using Godot;
-using System;
 
 [Tool]
 public partial class Player : CharacterBody2D

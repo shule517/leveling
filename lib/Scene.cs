@@ -1,3 +1,4 @@
+namespace leveling.lib;
 using System;
 using Godot;
 

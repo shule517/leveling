@@ -1,9 +1,9 @@
+namespace leveling.lib.extensions;
 using System;
 using System.Linq;
 using System.Reflection;
-// using attributes;
+using attributes;
 using Godot;
-// using autoload;
 
 public static class NodeExtensions
 {
@@ -31,7 +31,7 @@ public static class NodeExtensions
         BindInjectNodes(me);
     }
 
-    public static void BindOnReadyNodes(this Node me)
+    private static void BindOnReadyNodes(this Node me)
     {
         var fields = me.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (var field in fields)
@@ -59,7 +59,7 @@ public static class NodeExtensions
         }
     }
 
-    public static void BindInjectNodes(this Node me)
+    private static void BindInjectNodes(this Node me)
     {
         var fields = me.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (var field in fields)
