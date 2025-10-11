@@ -14,6 +14,8 @@ public partial class Player : CharacterBody2D
     private float _size = 16;
     private Color _color = new Color(0.9f, 0.2f, 0.2f);
 
+    private bool _isStunned; // モンスターから攻撃をくらって、スタン状態
+
     // ダメージ判定
     private bool _isDamage;
     private bool IsDamage
@@ -31,6 +33,9 @@ public partial class Player : CharacterBody2D
         if (Engine.IsEditorHint()) { return; }
         if (Input.IsActionJustPressed("button_y")) { AttackNormal(); }
         if (Input.IsActionJustPressed("button_b")) { AttackArea(); }
+
+        // スタン中なので移動できない
+        if (_isStunned) { return; }
 
         // スティック入力を取得（左スティック）
         var horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
@@ -68,12 +73,18 @@ public partial class Player : CharacterBody2D
     {
         // 点滅
         IsDamage = true;
+        _isStunned = true;
         await this.WaitSeconds(0.1f);
         IsDamage = false;
+        _isStunned = false;
 
         _hp -= damage;
         GD.Print($"_hp: #{_hp}");
-        if (_hp <= 0) { QueueFree(); }
+        if (_hp <= 0)
+        {
+            Position = Vector2.Zero;
+            _hp = 30;
+        }
     }
 
     private readonly List<Poring> _attackMonsters = new();

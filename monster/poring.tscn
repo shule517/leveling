@@ -9,7 +9,7 @@ radius = 1.0
 radius = 223.14345
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c0jwa"]
-radius = 84.59315
+radius = 50.0
 
 [node name="Poring" type="CharacterBody2D" groups=["Monster"]]
 script = ExtResource("1_4b2d1")
