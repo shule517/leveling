@@ -9,7 +9,8 @@ using player;
 [Tool]
 public partial class Monster : CharacterBody2D
 {
-    private int _hp = 5;
+    [Export] public int Hp = 5;
+    [Export] public bool IsActive; // アクティブ or ノンアクティブ
 
     private Player? _player;
     [Node] private Timer _attackTimer = null!;
@@ -64,6 +65,8 @@ public partial class Monster : CharacterBody2D
 
     public async Task Damage(int damage)
     {
+        if (!_isChasing) { _isChasing = true; }
+
         // 点滅
         IsDamage = true;
 
@@ -76,8 +79,8 @@ public partial class Monster : CharacterBody2D
         await this.WaitSeconds(0.1f);
         IsDamage = false;
 
-        _hp -= damage;
-        if (_hp <= 0) { QueueFree(); }
+        Hp -= damage;
+        if (Hp <= 0) { QueueFree(); }
     }
 
     private bool _isChasing;
@@ -86,7 +89,10 @@ public partial class Monster : CharacterBody2D
         if (body is Player player)
         {
             _player = player;
-            _isChasing = true;
+            if (IsActive)
+            {
+                _isChasing = true;
+            }
         }
     }
 
@@ -95,9 +101,10 @@ public partial class Monster : CharacterBody2D
         if (body is Player) { _isChasing = false; }
     }
 
+    // TODO: 近づいてから攻撃した時に モンスターが攻撃をしてこない
     private void _on_attack_area_2d_body_entered(Node2D body)
     {
-        if (body is Player player)
+        if (body is Player player && _isChasing)
         {
             _player = player; // TODO: NodeなどでPlayer取得するべき？
             player.Damage(1);
