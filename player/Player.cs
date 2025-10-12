@@ -123,14 +123,14 @@ public partial class Player : CharacterBody2D
 
     private Vector2 _startPosition = new (100, 100);
 
-    private readonly List<Poring> _attackMonsters = new();
+    private readonly List<Monster> _attackMonsters = new();
     private void _on_attack_area_2d_body_entered(Node2D body)
     {
-        if (body is Poring poring) { _attackMonsters.Add(poring); }
+        if (body is Monster monster) { _attackMonsters.Add(monster); }
     }
 
     private void _on_attack_area_2d_body_exited(Node2D body)
     {
-        if (body is Poring poring) { _attackMonsters.Remove(poring); }
+        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }

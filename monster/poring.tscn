@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bwvliqcfpxfta"]
 
-[ext_resource type="Script" uid="uid://deisec3m7jd8u" path="res://monster/Poring.cs" id="1_4b2d1"]
+[ext_resource type="Script" uid="uid://deisec3m7jd8u" path="res://monster/Monster.cs" id="1_4b2d1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rurpn"]
 radius = 1.0

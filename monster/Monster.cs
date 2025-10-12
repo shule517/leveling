@@ -7,7 +7,7 @@ using lib.extensions;
 using player;
 
 [Tool]
-public partial class Poring : CharacterBody2D
+public partial class Monster : CharacterBody2D
 {
     private int _hp = 5;
 
