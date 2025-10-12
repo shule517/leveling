@@ -66,6 +66,13 @@ public partial class Poring : CharacterBody2D
     {
         // 点滅
         IsDamage = true;
+
+        // ノックバック
+        if (_player != null)
+        {
+            var direction = (_player.Position - Position).Normalized() * -1;
+            Position += direction * 16;
+        }
         await this.WaitSeconds(0.1f);
         IsDamage = false;
 
