@@ -53,7 +53,9 @@ public static class NodeExtensions
                 // _hpProgressBar => HpProgressBarを取得する
                 var fieldName = field.Name.TrimStart('_');
                 var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}";
-                var node = me.GetNode<Node>(path);
+                var node = me.GetNode<Node>(path.Replace("2d", "2D"));
+                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。path: {path}"); }
+
                 field.SetValue(me, node);
             }
             else
@@ -61,7 +63,7 @@ public static class NodeExtensions
                 // [Node("NodeName")]と指定した場合
                 // 指定されたパスのNodeを取得する
                 var node = me.GetNode<Node>(attribute.Path);
-                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした: {attribute.Path}"); }
+                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。attribute.Path: {attribute.Path}"); }
 
                 field.SetValue(me, node);
             }
