@@ -97,19 +97,19 @@ position = Vector2(1163, 1283)
 position = Vector2(1213, 1455)
 
 [node name="Poring" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(33, 31)
+position = Vector2(442, 249)
 
 [node name="Poring2" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(103, 73)
+position = Vector2(359, 389)
 
 [node name="Poring3" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(71, 236)
+position = Vector2(96, 526)
 
 [node name="Poring4" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(322, 137)
+position = Vector2(699, 232)
 
 [node name="Poring5" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(372, 309)
+position = Vector2(786, 346)
 
 [node name="Poring6" parent="." instance=ExtResource("2_fyubv")]
 position = Vector2(1032, 164)

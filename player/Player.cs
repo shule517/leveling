@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using lib.attributes;
 using lib.extensions;
 using monster;
 
@@ -25,12 +26,36 @@ public partial class Player : CharacterBody2D
         set { _isDamage = value; QueueRedraw(); }
     }
 
+    public override void _Ready()
+    {
+        Position = _startPosition;
+        this.BindNodes();
+        UpdateCameraLimits();
+    }
+
     public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: IsDamage);
 
     [Export] public float Speed = 130f; // 移動速度
 
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
+
+    [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
+    private Vector2 _currentRoom = Vector2.Zero;
+    [Node] private Camera2D _camera2d = null!;
+
+    private void UpdateCameraLimits()
+    {
+        _currentRoom = new Vector2((int)(Position.X / (int)RoomSize.X), (int)(Position.Y / (int)RoomSize.Y));
+        GD.Print($"_currentRoom: #{_currentRoom}");
+        var left = _currentRoom.X * RoomSize.X;
+        var top = _currentRoom.Y * RoomSize.Y;
+
+        _camera2d.LimitLeft = (int)left;
+        _camera2d.LimitRight = (int)(left + RoomSize.X);
+        _camera2d.LimitTop = (int)top;
+        _camera2d.LimitBottom = (int)(top + RoomSize.Y);
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -45,6 +70,14 @@ public partial class Player : CharacterBody2D
         var input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
         Velocity = input * Speed;
         MoveAndSlide();
+
+        CheckRoomTransition();
+    }
+
+    private void CheckRoomTransition()
+    {
+        // TODO: 仮実装
+        UpdateCameraLimits();
     }
 
     // 通常攻撃
@@ -84,10 +117,12 @@ public partial class Player : CharacterBody2D
         GD.Print($"_hp: #{_hp}");
         if (_hp <= 0)
         {
-            Position = Vector2.Zero;
+            Position = _startPosition;
             _hp = 30;
         }
     }
+
+    private Vector2 _startPosition = new (100, 100);
 
     private readonly List<Poring> _attackMonsters = new();
     private void _on_attack_area_2d_body_entered(Node2D body)
