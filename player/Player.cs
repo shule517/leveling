@@ -41,19 +41,9 @@ public partial class Player : CharacterBody2D
         // スタン中なので移動できない
         if (_isStunned) { return; }
 
-        // スティック入力を取得（左スティック）
-        var horizontal = Input.GetJoyAxis(0, JoyAxis.LeftX);
-        var vertical = Input.GetJoyAxis(0, JoyAxis.LeftY);
-
-        // スティックの遊び（デッドゾーン）を考慮
-        var deadZone = 0.2f;
-        if (Mathf.Abs(horizontal) < deadZone) { horizontal = 0; }
-        if (Mathf.Abs(vertical) < deadZone) { vertical = 0; }
-
-        // GodotではY軸が下方向なので反転
-        var inputVector = new Vector2(horizontal, vertical);
-        Velocity = inputVector.Normalized() * Speed;
-
+        // 左スティックで移動
+        var input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+        Velocity = input * Speed;
         MoveAndSlide();
     }
 
@@ -81,7 +71,7 @@ public partial class Player : CharacterBody2D
         _canAttackArea = true;
     }
 
-    public async void Damage(int damage)
+    public async Task Damage(int damage)
     {
         // 点滅
         IsDamage = true;
