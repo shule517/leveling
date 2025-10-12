@@ -47,7 +47,6 @@ public partial class Player : CharacterBody2D
     private void UpdateCameraLimits()
     {
         _currentRoom = new Vector2((int)(Position.X / (int)RoomSize.X), (int)(Position.Y / (int)RoomSize.Y));
-        GD.Print($"_currentRoom: #{_currentRoom}");
         var left = _currentRoom.X * RoomSize.X;
         var top = _currentRoom.Y * RoomSize.Y;
 
