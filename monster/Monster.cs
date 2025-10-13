@@ -1,7 +1,9 @@
 namespace leveling.monster;
 
 using System.Threading.Tasks;
+using features.battle.floating_damage;
 using Godot;
+using lib;
 using lib.attributes;
 using lib.custom_nodes.circle2d;
 using lib.extensions;
@@ -13,6 +15,8 @@ public partial class Monster : CharacterBody2D
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
     [Export] public Color Color = new ("f27d73");
+
+    private static readonly Scene<FloatingDamage> FloatingDamageScene = new("res://features/battle/floating_damage/floating_damage.tscn");
 
     private Player? _player;
     [Node] private Timer _attackTimer = null!;
@@ -70,6 +74,11 @@ public partial class Monster : CharacterBody2D
 
         // 点滅
         IsDamage = true;
+
+        // ダメージ表示
+        var floatingDamage = FloatingDamageScene.Instantiate();
+        floatingDamage.Position = Position;
+        GetParent().AddChild(floatingDamage);
 
         // ノックバック
         if (_player != null)
