@@ -3,7 +3,7 @@ namespace Godot;
 
 using System.IO;
 using System.Reflection;
-using dragcrops.addons.CustomScripts;
+using leveling.addons.CustomScripts;
 
 [Tool]
 public partial class CustomScriptsPlugin : EditorPlugin

@@ -1,4 +1,4 @@
-namespace dragcrops.addons.CustomScripts;
+namespace leveling.addons.CustomScripts;
 
 using System;
 
