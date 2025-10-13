@@ -64,6 +64,8 @@ public partial class Player : CharacterBody2D
 
     public async Task Damage(int damage)
     {
+        Input.StartJoyVibration(0, 0.4f, 0, 0.1f);
+
         // 点滅
         IsDamage = true;
         _isStunned = true;

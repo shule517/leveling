@@ -75,6 +75,8 @@ public partial class Monster : CharacterBody2D
         // 点滅
         IsDamage = true;
 
+        Input.StartJoyVibration(0, 0, strongMagnitude: 0.4f, 0.1f);
+
         // ダメージ表示
         var floatingDamage = _floatingDamageScene.Instantiate();
         floatingDamage.Position = Position;
