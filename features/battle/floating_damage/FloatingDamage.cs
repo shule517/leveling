@@ -8,8 +8,8 @@ public partial class FloatingDamage : Node2D
     [Node] private Label _label = null!;
 
     private float _moveX = -0.5f;
-    private Vector2 _velocity = new (0, -90);
-    private Vector2 _gravity = new (0, 1.0f);
+    private Vector2 _velocity = new(0, -90);
+    private Vector2 _gravity = new(0, 1.0f);
     private int _mass = 100;
 
     public override void _Ready()

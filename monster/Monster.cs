@@ -14,9 +14,9 @@ public partial class Monster : CharacterBody2D
 {
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
-    [Export] public Color Color = new ("f27d73");
+    [Export] public Color Color = new("f27d73");
 
-    private static readonly Scene<FloatingDamage> FloatingDamageScene = new("res://features/battle/floating_damage/floating_damage.tscn");
+    private static readonly Scene<FloatingDamage> _floatingDamageScene = new("res://features/battle/floating_damage/floating_damage.tscn");
 
     private Player? _player;
     [Node] private Timer _attackTimer = null!;
@@ -76,7 +76,7 @@ public partial class Monster : CharacterBody2D
         IsDamage = true;
 
         // ダメージ表示
-        var floatingDamage = FloatingDamageScene.Instantiate();
+        var floatingDamage = _floatingDamageScene.Instantiate();
         floatingDamage.Position = Position;
         GetParent().AddChild(floatingDamage);
 

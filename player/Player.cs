@@ -129,7 +129,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    private Vector2 _startPosition = new (100, 100);
+    private Vector2 _startPosition = new(100, 100);
 
     private readonly List<Monster> _attackMonsters = new();
     private void _on_attack_area_2d_body_entered(Node2D body)
