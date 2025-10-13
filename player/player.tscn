@@ -5,11 +5,12 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_oul6g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkbax"]
-radius = 50.0
+radius = 148.63715
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_oul6g")
 Speed = 200.0
+RoomSize = Vector2(512, 352)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

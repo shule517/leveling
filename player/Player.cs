@@ -82,9 +82,16 @@ public partial class Player : CharacterBody2D
     // 通常攻撃
     private async Task AttackNormal()
     {
-        _canAttackNormal = false;
         var monster = _attackMonsters.OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
+        if (monster == null) { return; }
+
+        _canAttackNormal = false;
         monster?.Damage(1);
+
+        var line = new Line2D { Width = 1, DefaultColor = _color, Points = new [] { Position, monster.Position },};
+        GetParent().AddChild(line);
+        await this.WaitSeconds(0.1f);
+        line.QueueFree();
 
         await this.WaitSeconds(1.0f);
         _canAttackNormal = true;

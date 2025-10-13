@@ -101,13 +101,22 @@ public partial class Monster : CharacterBody2D
         if (body is Player) { _isChasing = false; }
     }
 
+    private async Task AttackPlayer()
+    {
+        var line = new Line2D { Width = 1, DefaultColor = _color, Points = new [] { Position, _player.Position },};
+        GetParent().AddChild(line);
+        await _player.Damage(1);
+        line.QueueFree();
+    }
+
     // TODO: 近づいてから攻撃した時に モンスターが攻撃をしてこない
     private void _on_attack_area_2d_body_entered(Node2D body)
     {
         if (body is Player player && _isChasing)
         {
             _player = player; // TODO: NodeなどでPlayer取得するべき？
-            player.Damage(1);
+            AttackPlayer();
+
             _attackTimer.Start(); // 2回目以降の攻撃タイマー
         }
     }
@@ -118,5 +127,5 @@ public partial class Monster : CharacterBody2D
         if (body is Player) { _attackTimer.Stop(); }
     }
 
-    private void _on_attack_timer_timeout() => _player?.Damage(1);
+    private void _on_attack_timer_timeout() => AttackPlayer();
 }
