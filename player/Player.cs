@@ -1,24 +1,21 @@
 namespace leveling.player;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
 using lib.custom_nodes.box2d;
 using lib.extensions;
-using monster;
 
 public partial class Player : CharacterBody2D
 {
     private int _hp = 10;
 
-    private float _size = 16;
-    private Color _color = new Color(0.9f, 0.2f, 0.2f);
+    public Color Color = new(0.9f, 0.2f, 0.2f);
 
     private bool _isStunned; // モンスターから攻撃をくらって、スタン状態
 
     [Node] private Box2D _box2D = null!;
+    private Vector2 _startPosition = new(100, 100);
 
     // ダメージ判定
     private bool IsDamage
@@ -34,12 +31,7 @@ public partial class Player : CharacterBody2D
         UpdateCameraLimits();
     }
 
-    // public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: IsDamage);
-
     [Export] public float Speed = 130f; // 移動速度
-
-    private bool _canAttackNormal = true;
-    private bool _canAttackArea = true;
 
     [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
     private Vector2 _currentRoom = Vector2.Zero;
@@ -60,8 +52,6 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (Engine.IsEditorHint()) { return; }
-        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
-        if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
 
         // スタン中なので移動できない
         if (_isStunned) { return; }
@@ -80,37 +70,6 @@ public partial class Player : CharacterBody2D
         UpdateCameraLimits();
     }
 
-    // 通常攻撃
-    private async Task AttackNormal()
-    {
-        var monster = _attackMonsters.OrderBy((monster) => Position.DistanceTo(monster.Position)).FirstOrDefault();
-        if (monster == null) { return; }
-
-        _canAttackNormal = false;
-        monster?.Damage(1);
-
-        var line = new Line2D { Width = 1, DefaultColor = _color, Points = new [] { Position, monster.Position },};
-        GetParent().AddChild(line);
-        await this.WaitSeconds(0.1f);
-        line.QueueFree();
-
-        await this.WaitSeconds(1.0f);
-        _canAttackNormal = true;
-    }
-
-    // 範囲攻撃
-    private async Task AttackArea()
-    {
-        _canAttackArea = false;
-        foreach (var monster in _attackMonsters)
-        {
-            monster.Damage(1);
-        }
-
-        await this.WaitSeconds(2.0f);
-        _canAttackArea = true;
-    }
-
     public async Task Damage(int damage)
     {
         // 点滅
@@ -127,18 +86,5 @@ public partial class Player : CharacterBody2D
             Position = _startPosition;
             _hp = 30;
         }
-    }
-
-    private Vector2 _startPosition = new(100, 100);
-
-    private readonly List<Monster> _attackMonsters = new();
-    private void _on_attack_area_2d_body_entered(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Add(monster); }
-    }
-
-    private void _on_attack_area_2d_body_exited(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }
