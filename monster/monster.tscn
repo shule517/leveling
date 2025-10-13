@@ -1,19 +1,19 @@
 [gd_scene load_steps=6 format=3 uid="uid://bwvliqcfpxfta"]
 
-[ext_resource type="Script" uid="uid://deisec3m7jd8u" path="res://monster/Monster.cs" id="1_4b2d1"]
-[ext_resource type="Script" uid="uid://ct0sh8x1y1gf" path="res://lib/custom_nodes/circle2d/Circle2D.cs" id="2_rurpn"]
+[ext_resource type="Script" uid="uid://deisec3m7jd8u" path="res://monster/Monster.cs" id="1_gsx7y"]
+[ext_resource type="Script" uid="uid://ct0sh8x1y1gf" path="res://lib/custom_nodes/circle2d/Circle2D.cs" id="2_2k2s0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rurpn"]
 radius = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4b2d1"]
-radius = 223.14345
+radius = 200.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c0jwa"]
 radius = 50.0
 
-[node name="Poring" type="CharacterBody2D" groups=["Monster"]]
-script = ExtResource("1_4b2d1")
+[node name="Monster" type="CharacterBody2D" groups=["Monster"]]
+script = ExtResource("1_gsx7y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rurpn")
@@ -32,7 +32,7 @@ shape = SubResource("CircleShape2D_c0jwa")
 wait_time = 1.5
 
 [node name="Circle2D" type="Node2D" parent="."]
-script = ExtResource("2_rurpn")
+script = ExtResource("2_2k2s0")
 Color = Color(0.9490196, 0.49019608, 0.4509804, 1)
 metadata/_custom_type_script = "uid://ct0sh8x1y1gf"
 

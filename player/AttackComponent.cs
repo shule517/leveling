@@ -4,6 +4,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lib.custom_nodes.circle2d;
 using lib.extensions;
 using monster;
 
@@ -43,10 +44,14 @@ public partial class AttackComponent : Node
     private async Task AttackArea()
     {
         _canAttackArea = false;
+        var circle = new Circle2D { Size = 200, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
+        Player.AddChild(circle);
         foreach (var monster in _attackMonsters)
         {
             monster.Damage(1);
         }
+        await this.WaitSeconds(0.1f);
+        Player.RemoveChild(circle);
 
         await this.WaitSeconds(2.0f);
         _canAttackArea = true;
