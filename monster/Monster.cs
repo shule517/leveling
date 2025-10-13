@@ -3,6 +3,7 @@ namespace leveling.monster;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
+using lib.custom_nodes.circle2d;
 using lib.extensions;
 using player;
 
@@ -11,16 +12,18 @@ public partial class Monster : CharacterBody2D
 {
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
+    [Export] public Color Color = new ("f27d73");
 
     private Player? _player;
     [Node] private Timer _attackTimer = null!;
 
+    [Node] private Circle2D _circle2D = null!;
+
     // ダメージ判定
-    private bool _isDamage;
     private bool IsDamage
     {
-        get => _isDamage;
-        set { _isDamage = value; QueueRedraw(); }
+        get => _circle2D.IsFilled;
+        set => _circle2D.IsFilled = value;
     }
 
     // 追跡パラメータ
@@ -30,8 +33,6 @@ public partial class Monster : CharacterBody2D
 
     // 描画
     private float _size = 16;
-    private Color _color = new Color("f27d73");
-    public override void _Draw() => DrawCircle(Vector2.Zero, _size / 2, _color, filled: IsDamage);
 
     public override void _Ready() => this.BindNodes();
 
@@ -103,7 +104,7 @@ public partial class Monster : CharacterBody2D
 
     private async Task AttackPlayer()
     {
-        var line = new Line2D { Width = 1, DefaultColor = _color, Points = new [] { Position, _player.Position },};
+        var line = new Line2D { Width = 1, DefaultColor = Color, Points = new [] { Position, _player.Position },};
         GetParent().AddChild(line);
         await _player.Damage(1);
         line.QueueFree();

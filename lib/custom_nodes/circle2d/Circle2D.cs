@@ -1,13 +1,13 @@
-namespace leveling.lib.custom_nodes.box2d;
+namespace leveling.lib.custom_nodes.circle2d;
 
 using Godot;
 using addons.CustomScripts;
 
 [Tool]
 [CustomScript(nameof(Node2D))]
-public partial class Box2D : Node2D
+public partial class Circle2D : Node2D
 {
-    public override void _Draw() => DrawRect(new Rect2(new Vector2(-Size / 2, -Size / 2), new Vector2(Size, Size)), Color, filled: IsFilled);
+    public override void _Draw() => DrawCircle(Vector2.Zero, Size / 2, Color, filled: IsFilled);
 
     private float _size = 16;
     private Color _color = new Color(0.9f, 0.2f, 0.2f);
