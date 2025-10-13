@@ -1,12 +1,13 @@
+namespace leveling.player;
+
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using leveling.lib.extensions;
-using leveling.monster;
-using leveling.player;
+using lib.extensions;
+using monster;
 
-public partial class Attack : Node
+public partial class AttackComponent : Node
 {
     private Player Player => (Player)Owner;
 

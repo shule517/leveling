@@ -8,34 +8,32 @@ using lib.extensions;
 
 public partial class Player : CharacterBody2D
 {
-    private int _hp = 10;
+    [Export] public int Hp = 10;
+    [Export] public Color Color = new(0.9f, 0.2f, 0.2f);
+    [Export] public float Speed = 130f; // 移動速度
+    [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
 
-    public Color Color = new(0.9f, 0.2f, 0.2f);
+    [Node] private Box2D _box2d = null!;
+    [Node] private Camera2D _camera2d = null!;
+
+    private Vector2 _startPosition;
+    private Vector2 _currentRoom = Vector2.Zero;
 
     private bool _isStunned; // モンスターから攻撃をくらって、スタン状態
-
-    [Node] private Box2D _box2D = null!;
-    private Vector2 _startPosition = new(100, 100);
 
     // ダメージ判定
     private bool IsDamage
     {
-        get => _box2D.IsFilled;
-        set => _box2D.IsFilled = value;
+        get => _box2d.IsFilled;
+        set => _box2d.IsFilled = value;
     }
 
     public override void _Ready()
     {
-        Position = _startPosition;
+        _startPosition = Position;
         this.BindNodes();
         UpdateCameraLimits();
     }
-
-    [Export] public float Speed = 130f; // 移動速度
-
-    [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
-    private Vector2 _currentRoom = Vector2.Zero;
-    [Node] private Camera2D _camera2d = null!;
 
     private void UpdateCameraLimits()
     {
@@ -61,12 +59,6 @@ public partial class Player : CharacterBody2D
         Velocity = input * Speed;
         MoveAndSlide();
 
-        CheckRoomTransition();
-    }
-
-    private void CheckRoomTransition()
-    {
-        // TODO: 仮実装
         UpdateCameraLimits();
     }
 
@@ -79,12 +71,12 @@ public partial class Player : CharacterBody2D
         IsDamage = false;
         _isStunned = false;
 
-        _hp -= damage;
-        GD.Print($"_hp: #{_hp}");
-        if (_hp <= 0)
+        Hp -= damage;
+        GD.Print($"Hp: #{Hp}");
+        if (Hp <= 0)
         {
             Position = _startPosition;
-            _hp = 30;
+            Hp = 30;
         }
     }
 }
