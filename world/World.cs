@@ -1,8 +1,8 @@
-namespace leveling.field;
+namespace leveling.world;
 using Godot;
 
 [Tool]
-public partial class Field : Node2D
+public partial class World : Node2D
 {
     public override void _Draw()
     {
