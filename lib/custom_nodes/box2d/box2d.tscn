@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0nrs4jlq3cfd"]
+
+[ext_resource type="Script" uid="uid://bdy4k22atl377" path="res://lib/custom_nodes/box2d/Box2d.cs" id="1_ona5d"]
+
+[node name="Box2d" type="Node2D"]
+script = ExtResource("1_ona5d")

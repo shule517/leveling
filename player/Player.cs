@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
+using lib.custom_nodes.box2d;
 using lib.extensions;
 using monster;
 
-[Tool]
 public partial class Player : CharacterBody2D
 {
     private int _hp = 10;
@@ -18,12 +18,13 @@ public partial class Player : CharacterBody2D
 
     private bool _isStunned; // モンスターから攻撃をくらって、スタン状態
 
+    [Node] private Box2D _box2D = null!;
+
     // ダメージ判定
-    private bool _isDamage;
     private bool IsDamage
     {
-        get => _isDamage;
-        set { _isDamage = value; QueueRedraw(); }
+        get => _box2D.IsFilled;
+        set => _box2D.IsFilled = value;
     }
 
     public override void _Ready()
@@ -33,7 +34,7 @@ public partial class Player : CharacterBody2D
         UpdateCameraLimits();
     }
 
-    public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: IsDamage);
+    // public override void _Draw() => DrawRect(new Rect2(new Vector2(-_size / 2, -_size / 2), new Vector2(_size, _size)), _color, filled: IsDamage);
 
     [Export] public float Speed = 130f; // 移動速度
 

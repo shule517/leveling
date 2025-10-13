@@ -26,6 +26,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="leveling"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/CustomScripts/plugin.cfg")
+
 [input]
 
 ui_left={

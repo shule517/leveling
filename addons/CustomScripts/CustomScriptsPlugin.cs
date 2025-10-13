@@ -17,7 +17,7 @@ public partial class CustomScriptsPlugin : EditorPlugin
             var attr = type.GetCustomAttribute<CustomScriptAttribute>();
             if (attr != null && type.FullName != null)
             {
-                var path = FindScriptPath(type.FullName);
+                var path = FindScriptPath(type.Name); // TODO: ネームスペースを考慮する必要がある
                 var script = GD.Load<Script>(path);
                 var icon = GD.Load<Texture2D>(attr.IconPath);
                 GD.Print($"AddCustomType: {type.FullName}");
