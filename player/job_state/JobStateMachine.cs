@@ -5,8 +5,9 @@ using Godot.Collections;
 // 参考：https://www.youtube.com/watch?v=Kcg1SEgDqyk
 public partial class JobStateMachine : Node
 {
+    [Export] public NodePath InitialState = null!;
     private Dictionary<string, JobState> _states = new();
-    private JobState _currentState;
+    private JobState _currentState = null!;
 
     public override void _Ready()
     {
@@ -20,7 +21,8 @@ public partial class JobStateMachine : Node
                 state.Exit();
             }
 
-            _currentState = _states["KnightState"];
+            var currentStateName = InitialState.ToString();
+            _currentState = _states[currentStateName];
             _currentState.Enter();
         }
     }
