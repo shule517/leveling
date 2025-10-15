@@ -32,8 +32,16 @@ shape = SubResource("CircleShape2D_rkbax")
 script = ExtResource("2_rkbax")
 metadata/_custom_type_script = "uid://bdy4k22atl377"
 
-[node name="JobStateMachine" type="Node" parent="."]
+[node name="JobStateMachine" type="Node2D" parent="."]
 script = ExtResource("3_g1dw6")
 
-[node name="KnightState" type="Node" parent="JobStateMachine"]
+[node name="KnightState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("4_yw30f")
+
+[node name="AttackNormalArea2D" type="Area2D" parent="JobStateMachine/KnightState"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/KnightState/AttackNormalArea2D"]
+shape = SubResource("CircleShape2D_rkbax")
+
+[connection signal="body_entered" from="JobStateMachine/KnightState/AttackNormalArea2D" to="JobStateMachine/KnightState" method="_on_attack_normal_area_2d_body_entered"]
+[connection signal="body_exited" from="JobStateMachine/KnightState/AttackNormalArea2D" to="JobStateMachine/KnightState" method="_on_attack_normal_area_2d_body_exited"]

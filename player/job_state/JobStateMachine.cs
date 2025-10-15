@@ -5,13 +5,11 @@ using Godot.Collections;
 // 参考：https://www.youtube.com/watch?v=Kcg1SEgDqyk
 public partial class JobStateMachine : Node
 {
-    // [Export] public NodePath initialState;
     private Dictionary<string, JobState> _states = new();
-    private JobState _currentState = new KnightState();
+    private JobState _currentState;
 
     public override void _Ready()
     {
-        GD.Print($"GetChildren(): {GetChildren()}");
         foreach (var node in GetChildren())
         {
             GD.Print($"node: {node}");
@@ -23,8 +21,7 @@ public partial class JobStateMachine : Node
                 state.Exit();
             }
 
-            // _currentState = new KnightState();
-            // _currentState = GetNode<JobState>(initialState);
+            _currentState = _states["KnightState"];
             _currentState.Enter();
         }
 

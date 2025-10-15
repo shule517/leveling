@@ -1,8 +1,16 @@
 namespace leveling.player.job_state;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Godot;
+using lib.extensions;
+using monster;
 
 public partial class KnightState : JobState
 {
+    private Player Player => (Player)JobStateMachine.Owner;
+
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
 
@@ -20,14 +28,38 @@ public partial class KnightState : JobState
         if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
     }
 
-    private void AttackNormal()
+    private async Task AttackNormal()
     {
-        GD.Print("AttackNormal");
+        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        if (monster == null) { return; }
+
+        _canAttackNormal = false;
+        monster.Damage(1);
+
+        var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
+        var line = new Line2D { Width = 1, DefaultColor = Player.Color, Points = points };
+        Player.AddChild(line);
+        await this.WaitSeconds(0.1f);
+        line.QueueFree();
+
+        await this.WaitSeconds(1.0f);
+        _canAttackNormal = true;
     }
 
     private void AttackArea()
     {
         GD.Print("AttackArea");
+    }
+
+    private readonly List<Monster> _attackMonsters = new();
+    private void _on_attack_normal_area_2d_body_entered(Node2D body)
+    {
+        if (body is Monster monster) { _attackMonsters.Add(monster); }
+    }
+
+    private void _on_attack_normal_area_2d_body_exited(Node2D body)
+    {
+        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }
 
