@@ -12,7 +12,6 @@ public partial class JobStateMachine : Node
     {
         foreach (var node in GetChildren())
         {
-            GD.Print($"node: {node}");
             if (node is JobState state)
             {
                 _states[state.Name] = state;
@@ -24,8 +23,6 @@ public partial class JobStateMachine : Node
             _currentState = _states["KnightState"];
             _currentState.Enter();
         }
-
-        GD.Print($"_states: {_states.Keys}");
     }
 
     public override void _Process(double delta)
