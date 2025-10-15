@@ -55,6 +55,10 @@ public static class NodeExtensions
                 var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}";
                 var node = me.GetNode<Node>(path.Replace("2d", "2D"));
                 if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。path: {path}"); }
+                if (!field.FieldType.IsAssignableFrom(node.GetType()))
+                {
+                    throw new InvalidOperationException($"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
+                }
 
                 field.SetValue(me, node);
             }
@@ -64,6 +68,10 @@ public static class NodeExtensions
                 // 指定されたパスのNodeを取得する
                 var node = me.GetNode<Node>(attribute.Path);
                 if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。attribute.Path: {attribute.Path}"); }
+                if (!field.FieldType.IsAssignableFrom(node.GetType()))
+                {
+                    throw new InvalidOperationException($"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
+                }
 
                 field.SetValue(me, node);
             }
