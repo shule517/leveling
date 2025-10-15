@@ -1,29 +1,52 @@
 namespace leveling.player.job_state;
 using Godot;
+using Godot.Collections;
 
-public abstract class JobState : Node
-{
-    public abstract void OnReady();
-    public abstract void OnProcess();
-    public abstract void OnPhysicsProcess();
-}
-
+// 参考：https://www.youtube.com/watch?v=Kcg1SEgDqyk
 public partial class JobStateMachine : Node
 {
-    private readonly Knight _knight = new();
+    // [Export] public NodePath initialState;
+    private Dictionary<string, JobState> _states = new();
+    private JobState _currentState = new Knight();
 
     public override void _Ready()
     {
-        _knight.OnReady();
+        GD.Print($"GetChildren(): {GetChildren()}");
+        foreach (var node in GetChildren())
+        {
+            GD.Print($"node: {node}");
+            if (node is JobState state)
+            {
+                _states[state.Name] = state;
+                state.JobStateMachine = this;
+                state.Ready();
+                state.Exit();
+            }
+
+            // _currentState = new Knight();
+            // _currentState = GetNode<JobState>(initialState);
+            _currentState.Enter();
+        }
+
+        GD.Print($"_states: {_states.Keys}");
     }
 
     public override void _Process(double delta)
     {
-        _knight.OnProcess();
+        _currentState.Update(delta);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        _knight.OnPhysicsProcess();
+        _currentState.PhysicsUpdate(delta);
+    }
+
+    public void TransitionTo(string key)
+    {
+        if (!_states.ContainsKey(key) || _currentState == _states[key]) { return; }
+
+        _currentState.Exit();
+        _currentState = _states[key];
+        _currentState.Enter();
     }
 }

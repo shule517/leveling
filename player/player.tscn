@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://crotkx3v2f8li"]
+[gd_scene load_steps=7 format=3 uid="uid://crotkx3v2f8li"]
 
 [ext_resource type="Script" uid="uid://bray532tk5x8s" path="res://player/Player.cs" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bdy4k22atl377" path="res://lib/custom_nodes/box2d/Box2D.cs" id="2_rkbax"]
 [ext_resource type="Script" uid="uid://bgbj0bce6vy4f" path="res://player/job_state/JobStateMachine.cs" id="3_g1dw6"]
+[ext_resource type="Script" uid="uid://dnlont2bi03ce" path="res://player/job_state/Knight.cs" id="4_yw30f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oul6g"]
 
@@ -33,3 +34,6 @@ metadata/_custom_type_script = "uid://bdy4k22atl377"
 
 [node name="JobStateMachine" type="Node" parent="."]
 script = ExtResource("3_g1dw6")
+
+[node name="Knight" type="Node" parent="JobStateMachine"]
+script = ExtResource("4_yw30f")
