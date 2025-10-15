@@ -1,7 +1,11 @@
 namespace leveling.player.job_state;
+using Godot;
 
 public partial class KnightState : JobState
 {
+    private bool _canAttackNormal = true;
+    private bool _canAttackArea = true;
+
     public override void Ready()
     {
     }
@@ -12,6 +16,18 @@ public partial class KnightState : JobState
 
     public override void PhysicsUpdate(double delta)
     {
+        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+        if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
+    }
+
+    private void AttackNormal()
+    {
+        GD.Print("AttackNormal");
+    }
+
+    private void AttackArea()
+    {
+        GD.Print("AttackArea");
     }
 }
 
