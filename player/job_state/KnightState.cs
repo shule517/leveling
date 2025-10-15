@@ -1,6 +1,6 @@
 namespace leveling.player.job_state;
 
-public partial class Knight : JobState
+public partial class KnightState : JobState
 {
     public override void Ready()
     {

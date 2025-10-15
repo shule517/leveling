@@ -7,7 +7,7 @@ public partial class JobStateMachine : Node
 {
     // [Export] public NodePath initialState;
     private Dictionary<string, JobState> _states = new();
-    private JobState _currentState = new Knight();
+    private JobState _currentState = new KnightState();
 
     public override void _Ready()
     {
@@ -23,7 +23,7 @@ public partial class JobStateMachine : Node
                 state.Exit();
             }
 
-            // _currentState = new Knight();
+            // _currentState = new KnightState();
             // _currentState = GetNode<JobState>(initialState);
             _currentState.Enter();
         }
