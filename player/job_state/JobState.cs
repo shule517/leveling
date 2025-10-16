@@ -4,6 +4,7 @@ using Godot;
 
 public partial class JobState : Node
 {
+    public Player Player => (Player)JobStateMachine.Owner;
     public JobStateMachine JobStateMachine { get; set; } = null!;
     public virtual void Enter() { }
     public virtual void Exit() { }

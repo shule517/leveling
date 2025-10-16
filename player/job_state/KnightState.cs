@@ -9,8 +9,6 @@ using monster;
 
 public partial class KnightState : JobState
 {
-    private Player Player => (Player)JobStateMachine.Owner;
-
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
 
