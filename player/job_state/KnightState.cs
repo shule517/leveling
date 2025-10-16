@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using lib.attributes;
 using lib.extensions;
 using monster;
 
 public partial class KnightState : JobState
 {
+    [Node] private Area2D _attackNormalArea2D = null!;
+
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
 
     public override void Ready()
     {
+        this.BindNodes();
+        _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
+        _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
     }
 
     public override void Update(double delta)
@@ -50,12 +56,12 @@ public partial class KnightState : JobState
     }
 
     private readonly List<Monster> _attackMonsters = new();
-    private void _on_attack_normal_area_2d_body_entered(Node2D body)
+    private void AttackNormalArea2DOnBodyEntered(Node2D body)
     {
         if (body is Monster monster) { _attackMonsters.Add(monster); }
     }
 
-    private void _on_attack_normal_area_2d_body_exited(Node2D body)
+    private void AttackNormalArea2DOnBodyExited(Node2D body)
     {
         if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
