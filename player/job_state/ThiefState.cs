@@ -1,46 +1,65 @@
-namespace leveling.player;
+namespace leveling.player.job_state;
 
-using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
+using lib.attributes;
 using lib.custom_nodes.circle2d;
 using lib.extensions;
 using monster;
 
-public partial class AttackComponent : Node
+public partial class ThiefState : JobState
 {
-    private Player Player => (Player)Owner;
+    [Node] private Area2D _attackNormalArea2D = null!;
 
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
 
-    public override void _PhysicsProcess(double delta)
+    public override void Ready()
     {
-        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+        this.BindNodes();
+        _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
+        _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
+    }
+
+    public override void Update(double delta)
+    {
+    }
+
+    public override void PhysicsUpdate(double delta)
+    {
+        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { DoubleAttack(); }
         if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
     }
 
-    // 通常攻撃
-    private async Task AttackNormal()
+    // TODO: スキル自体をクラス化したいね
+    // TODO: そもそも射程などを数値で管理する
+    private async Task DoubleAttack()
     {
         var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
         if (monster == null) { return; }
 
         _canAttackNormal = false;
+
+        // TODO: 本来のDAは確率50%
+        2.TimesAsync(async (i) => await AttackNormal(monster));
+        await this.WaitSeconds(1.0f);
+        _canAttackNormal = true;
+    }
+
+    private async Task AttackNormal(Monster? monster)
+    {
         monster.Damage(1);
 
+        // 攻撃の描画
         var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
         var line = new Line2D { Width = 1, DefaultColor = Player.Color, Points = points };
         Player.AddChild(line);
         await this.WaitSeconds(0.1f);
         line.QueueFree();
-
-        await this.WaitSeconds(1.0f);
-        _canAttackNormal = true;
     }
 
-    // 範囲攻撃
     private async Task AttackArea()
     {
         _canAttackArea = false;
@@ -48,6 +67,7 @@ public partial class AttackComponent : Node
         Player.AddChild(circle);
         foreach (var monster in _attackMonsters)
         {
+            // TODO: ノックバックをMonsterの実装に依存しているのを スキル依存にする必要がある
             monster.Damage(1);
         }
         await this.WaitSeconds(0.1f);
@@ -58,12 +78,12 @@ public partial class AttackComponent : Node
     }
 
     private readonly List<Monster> _attackMonsters = new();
-    private void _on_attack_area_2d_body_entered(Node2D body)
+    private void AttackNormalArea2DOnBodyEntered(Node2D body)
     {
         if (body is Monster monster) { _attackMonsters.Add(monster); }
     }
 
-    private void _on_attack_area_2d_body_exited(Node2D body)
+    private void AttackNormalArea2DOnBodyExited(Node2D body)
     {
         if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }

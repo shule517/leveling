@@ -20,11 +20,11 @@ public partial class JobStateMachine : Node
                 state.Ready();
                 state.Exit();
             }
-
-            var currentStateName = InitialState.ToString();
-            _currentState = _states[currentStateName];
-            _currentState.Enter();
         }
+
+        var currentStateName = InitialState.ToString();
+        _currentState = _states[currentStateName];
+        _currentState.Enter();
     }
 
     public override void _Process(double delta)
