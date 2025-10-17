@@ -39,10 +39,10 @@ public partial class JobStateMachine : Node
 
     public void TransitionTo(string key)
     {
-        if (!_states.ContainsKey(key) || _currentState == _states[key]) { return; }
+        if (!_states.TryGetValue(key, out var value) || _currentState == value) { return; }
 
         _currentState.Exit();
-        _currentState = _states[key];
+        _currentState = value;
         _currentState.Enter();
     }
 }
