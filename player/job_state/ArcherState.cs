@@ -9,7 +9,7 @@ using lib.custom_nodes.circle2d;
 using lib.extensions;
 using monster;
 
-public partial class ThiefState : JobState
+public partial class ArcherState : JobState
 {
     [Node] private Area2D _attackNormalArea2D = null!;
 
