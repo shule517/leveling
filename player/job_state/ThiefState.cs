@@ -35,6 +35,7 @@ public partial class ThiefState : JobState
 
     // TODO: スキル自体をクラス化したいね
     // TODO: そもそも射程などを数値で管理する
+    // TODO: 1セル = 16pxを定義して、9セルなら 16 * 9 = 136px
     private async Task DoubleAttack()
     {
         var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
