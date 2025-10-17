@@ -1,4 +1,6 @@
 namespace leveling.player.job_state;
+
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -34,6 +36,24 @@ public partial class JobStateMachine : Node
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Input.IsActionJustPressed("button_zl"))
+        {
+            var keys = _states.Keys.ToList();
+            var currentIndex = keys.IndexOf(_currentState.Name);
+            var prevIndex = (currentIndex - 1 + keys.Count) % keys.Count; // 先頭の前なら末尾へ
+            _currentState = _states[keys[prevIndex]];
+            GD.Print($"_currentState: {_currentState.Name}");
+        }
+
+        if (Input.IsActionJustPressed("button_zr"))
+        {
+            var keys = _states.Keys.ToList();
+            var currentIndex = keys.IndexOf(_currentState.Name);
+            var nextIndex = (currentIndex + 1) % keys.Count; // 最後なら先頭に戻る
+            _currentState = _states[keys[nextIndex]];
+            GD.Print($"_currentState: {_currentState.Name}");
+        }
+
         _currentState.PhysicsUpdate(delta);
     }
 

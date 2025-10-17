@@ -29,8 +29,24 @@ public partial class ArcherState : JobState
 
     public override void PhysicsUpdate(double delta)
     {
-        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { DoubleAttack(); }
-        if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
+        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { SingleAttack(); }
+        if (_canAttackArea && Input.IsActionJustPressed("button_b")) { DoubleAttack(); }
+    }
+
+    private async Task SingleAttack()
+    {
+        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        if (monster == null) { return; }
+
+        _canAttackNormal = false;
+
+        // TODO: 本来のDAは確率50%。
+        // TODO: レベルアップで5%からだんだん上がっていって、最後は常にでもいいかもしれない
+        // var attackCount = GD.Randf() < 1.0f ? 2 : 1;
+        var attackCount = 1;
+        attackCount.TimesAsync(async (i) => await Attack(monster));
+        await this.WaitSeconds(1.0f);
+        _canAttackNormal = true;
     }
 
     // TODO: スキル自体をクラス化したいね
@@ -46,12 +62,12 @@ public partial class ArcherState : JobState
         // TODO: 本来のDAは確率50%。
         // TODO: レベルアップで5%からだんだん上がっていって、最後は常にでもいいかもしれない
         var attackCount = GD.Randf() < 1.0f ? 2 : 1;
-        attackCount.TimesAsync(async (i) => await AttackNormal(monster));
+        attackCount.TimesAsync(async (i) => await Attack(monster));
         await this.WaitSeconds(1.0f);
         _canAttackNormal = true;
     }
 
-    private async Task AttackNormal(Monster? monster)
+    private async Task Attack(Monster? monster)
     {
         monster.Damage(1);
 
