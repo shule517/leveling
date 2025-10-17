@@ -43,8 +43,10 @@ public partial class ThiefState : JobState
 
         _canAttackNormal = false;
 
-        // TODO: 本来のDAは確率50%
-        2.TimesAsync(async (i) => await AttackNormal(monster));
+        // TODO: 本来のDAは確率50%。
+        // TODO: レベルアップで5%からだんだん上がっていって、最後は常にでもいいかもしれない
+        var attackCount = GD.Randf() < 0.5f ? 2 : 1;
+        attackCount.TimesAsync(async (i) => await AttackNormal(monster));
         await this.WaitSeconds(1.0f);
         _canAttackNormal = true;
     }
