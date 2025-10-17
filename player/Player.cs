@@ -8,7 +8,13 @@ using lib.extensions;
 
 public partial class Player : CharacterBody2D
 {
-    [Export] public int Hp = 10;
+    private int _hp = 20;
+    [Export] public int Hp
+    {
+        get => _hp;
+        set { _hp = value; GD.Print($"HP: {value}"); }
+    }
+
     [Export] public Color Color = new(0.9f, 0.2f, 0.2f);
     [Export] public float Speed = 130f; // 移動速度
     [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
@@ -74,7 +80,6 @@ public partial class Player : CharacterBody2D
         _isStunned = false;
 
         Hp -= damage;
-        GD.Print($"Hp: #{Hp}");
         if (Hp <= 0)
         {
             Position = _startPosition;

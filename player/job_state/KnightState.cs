@@ -12,6 +12,7 @@ using monster;
 public partial class KnightState : JobState
 {
     [Node] private Area2D _attackNormalArea2D = null!;
+    [Node] private Timer _hpTimer = null!;
 
     private bool _canAttackNormal = true;
     private bool _canAttackArea = true;
@@ -21,6 +22,12 @@ public partial class KnightState : JobState
         this.BindNodes();
         _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
         _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
+        _hpTimer.Timeout += HpTimerOnTimeout;
+    }
+
+    private void HpTimerOnTimeout()
+    {
+        Player.Hp += 1;
     }
 
     public override void Update(double delta)

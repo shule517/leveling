@@ -36,7 +36,7 @@ metadata/_custom_type_script = "uid://bdy4k22atl377"
 
 [node name="JobStateMachine" type="Node2D" parent="."]
 script = ExtResource("3_g1dw6")
-InitialState = NodePath("ArcherState")
+InitialState = NodePath("KnightState")
 
 [node name="KnightState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("4_yw30f")
@@ -45,6 +45,10 @@ script = ExtResource("4_yw30f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/KnightState/AttackNormalArea2D"]
 shape = SubResource("CircleShape2D_rkbax")
+
+[node name="HpTimer" type="Timer" parent="JobStateMachine/KnightState"]
+wait_time = 10.0
+autostart = true
 
 [node name="ThiefState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("5_qjkh3")
