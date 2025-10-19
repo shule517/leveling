@@ -31,9 +31,10 @@ public partial class MagicianState : JobState
         if (monster == null) { return; }
 
         _canAttackNormal = false;
+        Player.CanMove = false;
 
         // ユピテルサンダー
-        8.TimesAsync(async (i) =>
+        await 5.TimesAsync(async (i) =>
         {
             monster.Damage(1);
             var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
@@ -43,6 +44,7 @@ public partial class MagicianState : JobState
             line.QueueFree();
         });
 
+        Player.CanMove = true;
         await this.WaitSeconds(1.0f);
         _canAttackNormal = true;
     }

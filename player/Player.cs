@@ -45,6 +45,7 @@ public partial class Player : CharacterBody2D
     }
 
     List<Monster> Monsters => GetTree().GetNodesInGroup("Monster").Cast<Monster>().ToList();
+    public bool CanMove { get; set; }
 
     public const float CellSize = 16;
 
@@ -86,6 +87,7 @@ public partial class Player : CharacterBody2D
 
         // スタン中なので移動できない
         if (_isStunned) { return; }
+        if (!CanMove) { return; }
 
         // 左スティックで移動
         var input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
