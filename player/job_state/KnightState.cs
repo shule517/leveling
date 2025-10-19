@@ -1,17 +1,13 @@
 namespace leveling.player.job_state;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
 using lib.custom_nodes.circle2d;
 using lib.extensions;
-using monster;
 
 public partial class KnightState : JobState
 {
-    [Node] private Area2D _attackNormalArea2D = null!;
     [Node] private Timer _hpTimer = null!;
 
     private bool _canAttackNormal = true;

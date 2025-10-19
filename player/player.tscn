@@ -45,11 +45,6 @@ InitialState = NodePath("KnightState")
 [node name="KnightState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("4_yw30f")
 
-[node name="AttackNormalArea2D" type="Area2D" parent="JobStateMachine/KnightState"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/KnightState/AttackNormalArea2D"]
-shape = SubResource("CircleShape2D_rkbax")
-
 [node name="HpTimer" type="Timer" parent="JobStateMachine/KnightState"]
 wait_time = 10.0
 autostart = true
@@ -57,23 +52,8 @@ autostart = true
 [node name="ThiefState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("5_qjkh3")
 
-[node name="AttackNormalArea2D" type="Area2D" parent="JobStateMachine/ThiefState"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/ThiefState/AttackNormalArea2D"]
-shape = SubResource("CircleShape2D_rkbax")
-
 [node name="ArcherState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("6_g6k8r")
 
-[node name="AttackNormalArea2D" type="Area2D" parent="JobStateMachine/ArcherState"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/ArcherState/AttackNormalArea2D"]
-shape = SubResource("CircleShape2D_rkbax")
-
 [node name="MagicianState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("7_boad6")
-
-[node name="AttackNormalArea2D" type="Area2D" parent="JobStateMachine/MagicianState"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JobStateMachine/MagicianState/AttackNormalArea2D"]
-shape = SubResource("CircleShape2D_rkbax")
