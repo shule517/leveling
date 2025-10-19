@@ -67,7 +67,7 @@ position = Vector2(1816, 563)
 position = Vector2(1866, 735)
 
 [node name="Poring16" parent="." instance=ExtResource("2_fyubv")]
-position = Vector2(1204, 730)
+position = Vector2(1217, 622)
 
 [node name="Poring17" parent="." instance=ExtResource("2_fyubv")]
 position = Vector2(1274, 772)

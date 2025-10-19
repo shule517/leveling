@@ -52,9 +52,9 @@ public static class NodeExtensions
                 // 変数名と一致するNodeを取得
                 // _hpProgressBar => HpProgressBarを取得する
                 var fieldName = field.Name.TrimStart('_');
-                var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}";
-                var node = me.GetNode<Node>(path.Replace("2d", "2D"));
-                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。path: {path}"); }
+                var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}".Replace("2d", "2D");
+                var node = me.GetNode<Node>(path);
+                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。class: {me.GetType()}, path: {path}"); }
                 if (!field.FieldType.IsAssignableFrom(node.GetType()))
                 {
                     throw new InvalidOperationException($"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");

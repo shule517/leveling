@@ -15,6 +15,13 @@ public partial class Player : CharacterBody2D
         set { _hp = value; GD.Print($"HP: {value}"); }
     }
 
+    private int _sp = 20;
+    [Export] public int Sp
+    {
+        get => _sp;
+        set { _sp = value; GD.Print($"SP: {value}"); }
+    }
+
     [Export] public Color Color = new(0.9f, 0.2f, 0.2f);
     [Export] public float Speed = 130f; // 移動速度
     [Export] public Vector2 RoomSize = new Vector2(512*2, 352*2); // 1部屋のサイズ
