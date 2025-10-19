@@ -31,13 +31,17 @@ public partial class MagicianState : JobState
         if (monster == null) { return; }
 
         _canAttackNormal = false;
-        monster.Damage(1);
 
-        var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
-        var line = new Line2D { Width = 1, DefaultColor = Player.Color, Points = points };
-        Player.AddChild(line);
-        await this.WaitSeconds(0.1f);
-        line.QueueFree();
+        // ユピテルサンダー
+        8.TimesAsync(async (i) =>
+        {
+            monster.Damage(1);
+            var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
+            var line = new Line2D { Width = 1, DefaultColor = Player.Color, Points = points };
+            Player.AddChild(line);
+            await this.WaitSeconds(0.1f);
+            line.QueueFree();
+        });
 
         await this.WaitSeconds(1.0f);
         _canAttackNormal = true;

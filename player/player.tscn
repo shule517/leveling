@@ -40,7 +40,7 @@ metadata/_custom_type_script = "uid://bdy4k22atl377"
 [node name="JobStateMachine" type="Node2D" parent="."]
 visible = false
 script = ExtResource("3_g1dw6")
-InitialState = NodePath("KnightState")
+InitialState = NodePath("MagicianState")
 
 [node name="KnightState" type="Node2D" parent="JobStateMachine"]
 script = ExtResource("4_yw30f")

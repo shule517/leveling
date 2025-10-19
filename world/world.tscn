@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxjc5tb41hg40"]
+[gd_scene load_steps=4 format=3 uid="uid://dxjc5tb41hg40"]
 
 [ext_resource type="Script" uid="uid://t2mhh7vhrfq3" path="res://world/World.cs" id="1_cbr7w"]
 [ext_resource type="PackedScene" uid="uid://bwvliqcfpxfta" path="res://monster/monster.tscn" id="2_fyubv"]
+[ext_resource type="Script" uid="uid://bdy4k22atl377" path="res://lib/custom_nodes/box2d/Box2D.cs" id="3_4717r"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_cbr7w")
+
+[node name="Box2D" type="Node2D" parent="."]
+position = Vector2(1351, 813)
+script = ExtResource("3_4717r")
+Size = 500.0
+Color = Color(0.312, 0.4, 0.356, 1)
+IsFilled = true
+metadata/_custom_type_script = "uid://bdy4k22atl377"
 
 [node name="Poring36" parent="." instance=ExtResource("2_fyubv")]
 position = Vector2(518, 188)

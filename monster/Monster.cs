@@ -68,7 +68,7 @@ public partial class Monster : CharacterBody2D
         }
     }
 
-    public async Task Damage(int damage)
+    public async Task Damage(int damage, float waitTime = 0.1f)
     {
         if (!_isChasing) { _isChasing = true; }
 
@@ -88,7 +88,7 @@ public partial class Monster : CharacterBody2D
             var direction = (_player.Position - Position).Normalized() * -1;
             Position += direction * 16;
         }
-        await this.WaitSeconds(0.1f);
+        await this.WaitSeconds(waitTime);
         IsDamage = false;
 
         Hp -= damage;
