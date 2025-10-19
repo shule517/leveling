@@ -1,10 +1,13 @@
 namespace leveling.player;
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
 using lib.custom_nodes.box2d;
 using lib.extensions;
+using monster;
 
 public partial class Player : CharacterBody2D
 {
@@ -39,6 +42,23 @@ public partial class Player : CharacterBody2D
     {
         get => _box2d.IsFilled;
         set => _box2d.IsFilled = value;
+    }
+
+    List<Monster> Monsters => GetTree().GetNodesInGroup("Monster").Cast<Monster>().ToList();
+
+    public const float CellSize = 16;
+
+    public IEnumerable<Monster> AttackAreaMonsters(int rangeCell)
+    {
+        return Monsters.Where((monster) => Position.DistanceTo(monster.Position) < CellSize * rangeCell);
+    }
+
+    public Monster? AttackMonster(int rangeCell)
+    {
+        return Monsters
+            .Where((monster) => Position.DistanceTo(monster.Position) < CellSize * rangeCell)
+            .OrderBy((monster) => Position.DistanceTo(monster.Position))
+            .FirstOrDefault();
     }
 
     public override void _Ready()

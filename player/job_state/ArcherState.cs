@@ -35,7 +35,7 @@ public partial class ArcherState : JobState
 
     private async Task SingleAttack()
     {
-        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        var monster = Player.AttackMonster(9);
         if (monster == null) { return; }
 
         _canAttackNormal = false;

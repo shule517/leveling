@@ -42,7 +42,7 @@ public partial class KnightState : JobState
 
     private async Task AttackNormal()
     {
-        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        var monster = Player.AttackMonster(2);
         if (monster == null) { return; }
 
         _canAttackNormal = false;
@@ -61,9 +61,11 @@ public partial class KnightState : JobState
     private async Task AttackArea()
     {
         _canAttackArea = false;
-        var circle = new Circle2D { Size = 200, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
+        var circle = new Circle2D { Size = Player.CellSize * 9 * 2, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
         Player.AddChild(circle);
-        foreach (var monster in _attackMonsters)
+        var monsters = Player.AttackAreaMonsters(9);
+
+        foreach (var monster in monsters)
         {
             monster.Damage(1);
         }
