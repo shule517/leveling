@@ -1,7 +1,5 @@
 namespace leveling.player.job_state;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using lib.attributes;
@@ -19,8 +17,6 @@ public partial class ThiefState : JobState
     public override void Ready()
     {
         this.BindNodes();
-        _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
-        _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
     }
 
     public override void Update(double delta)
@@ -38,7 +34,7 @@ public partial class ThiefState : JobState
     // TODO: 1セル = 16pxを定義して、9セルなら 16 * 9 = 136px
     private async Task DoubleAttack()
     {
-        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        var monster = Player.AttackMonster(4);
         if (monster == null) { return; }
 
         _canAttackNormal = false;
@@ -66,9 +62,11 @@ public partial class ThiefState : JobState
     private async Task AttackArea()
     {
         _canAttackArea = false;
-        var circle = new Circle2D { Size = 200, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
+        var circle = new Circle2D { Size = Player.CellSize * 4, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
         Player.AddChild(circle);
-        foreach (var monster in _attackMonsters)
+
+        var monsters = Player.AttackAreaMonsters(4);
+        foreach (var monster in monsters)
         {
             // TODO: ノックバックをMonsterの実装に依存しているのを スキル依存にする必要がある
             monster.Damage(1);
@@ -78,16 +76,5 @@ public partial class ThiefState : JobState
 
         await this.WaitSeconds(2.0f);
         _canAttackArea = true;
-    }
-
-    private readonly List<Monster> _attackMonsters = new();
-    private void AttackNormalArea2DOnBodyEntered(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Add(monster); }
-    }
-
-    private void AttackNormalArea2DOnBodyExited(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }

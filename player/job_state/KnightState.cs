@@ -20,8 +20,6 @@ public partial class KnightState : JobState
     public override void Ready()
     {
         this.BindNodes();
-        _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
-        _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
         _hpTimer.Timeout += HpTimerOnTimeout;
     }
 
@@ -74,17 +72,6 @@ public partial class KnightState : JobState
 
         await this.WaitSeconds(2.0f);
         _canAttackArea = true;
-    }
-
-    private readonly List<Monster> _attackMonsters = new();
-    private void AttackNormalArea2DOnBodyEntered(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Add(monster); }
-    }
-
-    private void AttackNormalArea2DOnBodyExited(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }
 

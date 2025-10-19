@@ -19,8 +19,6 @@ public partial class MagicianState : JobState
     public override void Ready()
     {
         this.BindNodes();
-        _attackNormalArea2D.BodyEntered += AttackNormalArea2DOnBodyEntered;
-        _attackNormalArea2D.BodyExited += AttackNormalArea2DOnBodyExited;
     }
 
     public override void Update(double delta)
@@ -35,7 +33,7 @@ public partial class MagicianState : JobState
 
     private async Task AttackNormal()
     {
-        var monster = _attackMonsters.OrderBy((monster) => Player.Position.DistanceTo(monster.Position)).FirstOrDefault();
+        var monster = Player.AttackMonster(9);
         if (monster == null) { return; }
 
         _canAttackNormal = false;
@@ -54,9 +52,11 @@ public partial class MagicianState : JobState
     private async Task AttackArea()
     {
         _canAttackArea = false;
-        var circle = new Circle2D { Size = 200, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
+        var circle = new Circle2D { Size = Player.CellSize * 9 * 2, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
         Player.AddChild(circle);
-        foreach (var monster in _attackMonsters)
+
+        var monsters = Player.AttackAreaMonsters(9);
+        foreach (var monster in monsters)
         {
             monster.Damage(1);
         }
@@ -65,16 +65,5 @@ public partial class MagicianState : JobState
 
         await this.WaitSeconds(2.0f);
         _canAttackArea = true;
-    }
-
-    private readonly List<Monster> _attackMonsters = new();
-    private void AttackNormalArea2DOnBodyEntered(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Add(monster); }
-    }
-
-    private void AttackNormalArea2DOnBodyExited(Node2D body)
-    {
-        if (body is Monster monster) { _attackMonsters.Remove(monster); }
     }
 }
