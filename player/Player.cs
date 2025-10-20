@@ -45,7 +45,7 @@ public partial class Player : CharacterBody2D
     }
 
     List<Monster> Monsters => GetTree().GetNodesInGroup("Monster").Cast<Monster>().ToList();
-    public bool CanMove { get; set; }
+    public bool CanMove { get; set; } = true;
 
     public const float CellSize = 16;
 
