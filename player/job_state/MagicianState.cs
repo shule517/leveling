@@ -27,16 +27,11 @@ public partial class MagicianState : JobState {
             _buttonYPressedTime += delta;
 
             var attackCount = (int)(_buttonYPressedTime * 2);
-            if (attackCount >= 5) {
-                Input.StartJoyVibration(0, 0.6f, 0.6f, 0.1f);
-            } else {
-                Input.StartJoyVibration(0, 0.4f, 0, 0.1f);
-            }
+            if (attackCount >= 5) { Input.StartJoyVibration(0, 0.6f, 0.6f, 0.1f); }
+            else { Input.StartJoyVibration(0, 0.4f, 0, 0.1f); }
         } else {
             var attackCount = (int)(_buttonYPressedTime * 2);
-            if (attackCount >= 5) {
-                AttackNormal(attackCount);
-            }
+            if (attackCount >= 5) { AttackNormal(attackCount); }
 
             Player.CanMove = true;
             _buttonYPressedTime = 0;
