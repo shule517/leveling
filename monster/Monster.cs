@@ -86,7 +86,7 @@ public partial class Monster : CharacterBody2D
         if (_player != null)
         {
             var direction = (_player.Position - Position).Normalized() * -1;
-            Position += direction * 16;
+            Position += direction * Player.CellSize;
         }
         await this.WaitSeconds(waitTime);
         IsDamage = false;

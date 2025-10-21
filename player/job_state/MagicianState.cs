@@ -19,22 +19,46 @@ public partial class MagicianState : JobState
     {
     }
 
+    private double _buttonYPressedTime = 0;
+
     public override void PhysicsUpdate(double delta)
     {
-        if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+        if (Input.IsActionPressed("button_y"))
+        {
+            Player.CanMove = false;
+            _buttonYPressedTime += delta;
+
+            var attackCount = (int)(_buttonYPressedTime * 1.5);
+            if (attackCount >= 6)
+            {
+                Input.StartJoyVibration(0, 0.6f, 0.6f, 0.1f);
+            }
+            else
+            {
+                Input.StartJoyVibration(0, 0.4f, 0, 0.1f);
+            }
+        }
+        else
+        {
+            var attackCount = (int)(_buttonYPressedTime * 1.5);
+            if (attackCount >= 6)
+            {
+                AttackNormal(attackCount);
+            }
+            Player.CanMove = true;
+            _buttonYPressedTime = 0;
+        }
         if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
     }
 
-    private async Task AttackNormal()
+    private async Task AttackNormal(int attackCount)
     {
+        GD.Print($"attackCount: {attackCount}");
         var monster = Player.AttackMonster(9);
         if (monster == null) { return; }
 
-        _canAttackNormal = false;
-        Player.CanMove = false;
-
         // ユピテルサンダー
-        await 5.TimesAsync(async (i) =>
+        await attackCount.TimesAsync(async (i) =>
         {
             monster.Damage(1);
             var points = new[] { Player.ToLocal(Player.Position), Player.ToLocal(monster.Position) };
@@ -44,9 +68,7 @@ public partial class MagicianState : JobState
             line.QueueFree();
         });
 
-        Player.CanMove = true;
         await this.WaitSeconds(1.0f);
-        _canAttackNormal = true;
     }
 
     private async Task AttackArea()
