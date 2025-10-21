@@ -25,11 +25,15 @@ public partial class MagicianState : JobState
     {
         if (Input.IsActionPressed("button_y"))
         {
+            // 範囲内にモンスターがいる時だけ長押しできる
+            var monster = Player.AttackMonster(9);
+            if (monster == null) { return; }
+
             Player.CanMove = false;
             _buttonYPressedTime += delta;
 
-            var attackCount = (int)(_buttonYPressedTime * 1.5);
-            if (attackCount >= 6)
+            var attackCount = (int)(_buttonYPressedTime * 2);
+            if (attackCount >= 5)
             {
                 Input.StartJoyVibration(0, 0.6f, 0.6f, 0.1f);
             }
@@ -40,8 +44,8 @@ public partial class MagicianState : JobState
         }
         else
         {
-            var attackCount = (int)(_buttonYPressedTime * 1.5);
-            if (attackCount >= 6)
+            var attackCount = (int)(_buttonYPressedTime * 2);
+            if (attackCount >= 5)
             {
                 AttackNormal(attackCount);
             }
