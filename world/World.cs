@@ -1,18 +1,15 @@
 namespace leveling.world;
+
 using Godot;
 
 [Tool]
-public partial class World : Node2D
-{
-    public override void _Draw()
-    {
+public partial class World : Node2D {
+    public override void _Draw() {
         var gridSize = 64;
         var color = new Color(0.2f, 0.2f, 0.2f);
-        for (var x = 0; x < 64; x++)
-        {
+        for (var x = 0; x < 64; x++) {
             DrawLine(new Vector2(x * gridSize, 0), new Vector2(x * gridSize, 64 * 64), color, 2);
-            for (var y = 0; y < 64; y++)
-            {
+            for (var y = 0; y < 64; y++) {
                 DrawLine(new Vector2(0, y * gridSize), new Vector2(64 * 64, y * gridSize), color, 2);
             }
         }

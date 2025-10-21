@@ -6,17 +6,13 @@ using System.Reflection;
 using leveling.addons.CustomScripts;
 
 [Tool]
-public partial class CustomScriptsPlugin : EditorPlugin
-{
-    public override void _EnterTree()
-    {
+public partial class CustomScriptsPlugin : EditorPlugin {
+    public override void _EnterTree() {
         // アセンブリを取得
         var assembly = Assembly.GetExecutingAssembly();
-        foreach (var type in assembly.GetTypes())
-        {
+        foreach (var type in assembly.GetTypes()) {
             var attr = type.GetCustomAttribute<CustomScriptAttribute>();
-            if (attr != null && type.FullName != null)
-            {
+            if (attr != null && type.FullName != null) {
                 var path = FindScriptPath(type.Name); // TODO: ネームスペースを考慮する必要がある
                 var script = GD.Load<Script>(path);
                 var icon = GD.Load<Texture2D>(attr.IconPath);
@@ -26,13 +22,10 @@ public partial class CustomScriptsPlugin : EditorPlugin
         }
     }
 
-    private static string FindScriptPath(string typeName)
-    {
+    private static string FindScriptPath(string typeName) {
         foreach (var file in Directory.GetFiles(ProjectSettings.GlobalizePath("res://"), "*.cs",
-                     SearchOption.AllDirectories))
-        {
-            if (Path.GetFileNameWithoutExtension(file) == typeName)
-            {
+                     SearchOption.AllDirectories)) {
+            if (Path.GetFileNameWithoutExtension(file) == typeName) {
                 // OSパス → res:// パスに変換
                 return ProjectSettings.LocalizePath(file);
             }
@@ -41,8 +34,7 @@ public partial class CustomScriptsPlugin : EditorPlugin
         throw new FileNotFoundException($"Script not found: {typeName}");
     }
 
-    public override void _ExitTree()
-    {
+    public override void _ExitTree() {
         // 登録解除
         // AddCustomType で登録したクラス名を忘れずに RemoveCustomType する
     }

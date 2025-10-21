@@ -6,15 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="addons\" />
+    <Folder Include="addons\"/>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="addons\CustomScripts\icon-export.png" />
-    <Content Include="addons\CustomScripts\icon-export.png.import" />
-    <Content Include="addons\CustomScripts\icon.aseprite" />
-    <Content Include="addons\CustomScripts\icon.aseprite.import" />
-    <Content Include="addons\CustomScripts\icon.png" />
-    <Content Include="addons\CustomScripts\icon.png.import" />
-    <Content Include="addons\CustomScripts\plugin.cfg" />
+    <Content Include="addons\CustomScripts\icon-export.png"/>
+    <Content Include="addons\CustomScripts\icon-export.png.import"/>
+    <Content Include="addons\CustomScripts\icon.aseprite"/>
+    <Content Include="addons\CustomScripts\icon.aseprite.import"/>
+    <Content Include="addons\CustomScripts\icon.png"/>
+    <Content Include="addons\CustomScripts\icon.png.import"/>
+    <Content Include="addons\CustomScripts\plugin.cfg"/>
   </ItemGroup>
 </Project>

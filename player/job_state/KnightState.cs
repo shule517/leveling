@@ -6,36 +6,31 @@ using lib.attributes;
 using lib.custom_nodes.circle2d;
 using lib.extensions;
 
-public partial class KnightState : JobState
-{
-    [Node] private Timer _hpTimer = null!;
-
-    private bool _canAttackNormal = true;
+public partial class KnightState : JobState {
     private bool _canAttackArea = true;
 
-    public override void Ready()
-    {
+    private bool _canAttackNormal = true;
+    [Node] private Timer _hpTimer = null!;
+
+    public override void Ready() {
         this.BindNodes();
         _hpTimer.Timeout += HpTimerOnTimeout;
     }
 
-    private void HpTimerOnTimeout()
-    {
+    private void HpTimerOnTimeout() {
         Player.Hp += 1;
     }
 
-    public override void Update(double delta)
-    {
+    public override void Update(double delta) {
     }
 
-    public override void PhysicsUpdate(double delta)
-    {
+    public override void PhysicsUpdate(double delta) {
         if (_canAttackNormal && Input.IsActionJustPressed("button_y")) { AttackNormal(); }
+
         if (_canAttackArea && Input.IsActionJustPressed("button_b")) { AttackArea(); }
     }
 
-    private async Task AttackNormal()
-    {
+    private async Task AttackNormal() {
         var monster = Player.AttackMonster(2);
         if (monster == null) { return; }
 
@@ -52,17 +47,16 @@ public partial class KnightState : JobState
         _canAttackNormal = true;
     }
 
-    private async Task AttackArea()
-    {
+    private async Task AttackArea() {
         _canAttackArea = false;
         var circle = new Circle2D { Size = Player.CellSize * 9 * 2, Color = new Color(1, 1, 1, 0.3f), IsFilled = true };
         Player.AddChild(circle);
         var monsters = Player.AttackAreaMonsters(9);
 
-        foreach (var monster in monsters)
-        {
+        foreach (var monster in monsters) {
             monster.Damage(1);
         }
+
         await this.WaitSeconds(0.1f);
         Player.RemoveChild(circle);
 
@@ -70,4 +64,3 @@ public partial class KnightState : JobState
         _canAttackArea = true;
     }
 }
-

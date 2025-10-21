@@ -1,19 +1,18 @@
 namespace leveling.features.battle.floating_damage;
+
 using Godot;
 using lib.attributes;
 using lib.extensions;
 
-public partial class FloatingDamage : Node2D
-{
+public partial class FloatingDamage : Node2D {
+    private Vector2 _gravity = new(0, 1.0f);
     [Node] private Label _label = null!;
+    private int _mass = 100;
 
     private float _moveX = -0.5f;
     private Vector2 _velocity = new(0, -90);
-    private Vector2 _gravity = new(0, 1.0f);
-    private int _mass = 100;
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         this.BindNodes();
 
         _moveX *= -1;
@@ -32,8 +31,7 @@ public partial class FloatingDamage : Node2D
         tween.TweenCallback(Callable.From(() => QueueFree()));
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
+    public override void _PhysicsProcess(double delta) {
         _velocity += _gravity * _mass * (float)delta;
         Position += _velocity * (float)delta;
         Position += new Vector2(_moveX, 0);

@@ -1,28 +1,24 @@
 namespace leveling.lib.extensions;
+
 using System;
 using System.Linq;
 using System.Reflection;
 using attributes;
 using Godot;
 
-public static class NodeExtensions
-{
+public static class NodeExtensions {
     // 例) await this.WaitSeconds(0.1f);
-    public static SignalAwaiter WaitSeconds(this Node me, float seconds)
-    {
+    public static SignalAwaiter WaitSeconds(this Node me, float seconds) {
         var timer = me.GetTree().CreateTimer(seconds);
         return me.ToSignal(timer, "timeout");
     }
 
-    public static void AutoLoad(this Node me)
-    {
+    public static void AutoLoad(this Node me) {
         var assembly = Assembly.GetExecutingAssembly();
         var autoLoadClasses = assembly.GetTypes().Where(t => t.GetCustomAttribute<AutoLoadAttribute>() != null);
-        foreach (var autoLoadClass in autoLoadClasses)
-        {
+        foreach (var autoLoadClass in autoLoadClasses) {
             var instance = Activator.CreateInstance(autoLoadClass) as Node;
-            if (instance != null)
-            {
+            if (instance != null) {
                 instance.Name = autoLoadClass.Name;
                 me.AddChild(instance);
             }
@@ -32,45 +28,45 @@ public static class NodeExtensions
         }
     }
 
-    public static void BindNodes(this Node me)
-    {
+    public static void BindNodes(this Node me) {
         BindOnReadyNodes(me);
         BindInjectNodes(me);
     }
 
-    private static void BindOnReadyNodes(this Node me)
-    {
+    private static void BindOnReadyNodes(this Node me) {
         var fields = me.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-        foreach (var field in fields)
-        {
+        foreach (var field in fields) {
             var attribute = field.GetCustomAttribute<NodeAttribute>();
             if (attribute == null) { continue; }
 
-            if (attribute.Path == null)
-            {
+            if (attribute.Path == null) {
                 // [Node]と指定した場合
                 // 変数名と一致するNodeを取得
                 // _hpProgressBar => HpProgressBarを取得する
                 var fieldName = field.Name.TrimStart('_');
                 var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}".Replace("2d", "2D");
                 var node = me.GetNode<Node>(path);
-                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。class: {me.GetType()}, path: {path}"); }
-                if (!field.FieldType.IsAssignableFrom(node.GetType()))
-                {
-                    throw new InvalidOperationException($"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
+                if (node == null) {
+                    throw new InvalidOperationException($"Nodeが見つかりませんでした。class: {me.GetType()}, path: {path}");
+                }
+
+                if (!field.FieldType.IsAssignableFrom(node.GetType())) {
+                    throw new InvalidOperationException(
+                        $"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
                 }
 
                 field.SetValue(me, node);
-            }
-            else
-            {
+            } else {
                 // [Node("NodeName")]と指定した場合
                 // 指定されたパスのNodeを取得する
                 var node = me.GetNode<Node>(attribute.Path);
-                if (node == null) { throw new InvalidOperationException($"Nodeが見つかりませんでした。attribute.Path: {attribute.Path}"); }
-                if (!field.FieldType.IsAssignableFrom(node.GetType()))
-                {
-                    throw new InvalidOperationException($"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
+                if (node == null) {
+                    throw new InvalidOperationException($"Nodeが見つかりませんでした。attribute.Path: {attribute.Path}");
+                }
+
+                if (!field.FieldType.IsAssignableFrom(node.GetType())) {
+                    throw new InvalidOperationException(
+                        $"Bindに失敗しました。型不一致：「{field.Name}」に「{node.GetType().Name}」を代入できません。");
                 }
 
                 field.SetValue(me, node);
@@ -78,11 +74,9 @@ public static class NodeExtensions
         }
     }
 
-    private static void BindInjectNodes(this Node me)
-    {
+    private static void BindInjectNodes(this Node me) {
         var fields = me.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-        foreach (var field in fields)
-        {
+        foreach (var field in fields) {
             var attribute = field.GetCustomAttribute<InjectAttribute>();
             if (attribute == null) { continue; }
 
