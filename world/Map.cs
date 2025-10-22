@@ -1,6 +1,8 @@
 using Godot;
+using leveling.lib;
 using leveling.lib.attributes;
 using leveling.lib.extensions;
+using leveling.monster;
 using leveling.player;
 
 public partial class Map : Node2D
@@ -8,6 +10,9 @@ public partial class Map : Node2D
     [Node] private Area2D _area2D = null!;
     // [Node] CollisionShape2D _collisionShape2D = null!;
     [Node] private CollisionShape2D _collisionShape2D = null!;
+
+    private static readonly Scene<Monster> _monsterScene =
+        new("res://monster/monster.tscn");
 
     public override void _Ready() {
         this.BindNodes();
@@ -32,6 +37,16 @@ public partial class Map : Node2D
             var bottom = (int)(pos.Y + size.Y);
 
             player.SetCameraLimit(left, top, right, bottom);
+
+            // モンスターを全部消す
+            foreach (var node in GetTree().GetNodesInGroup("Monster")) node.QueueFree();
+
+            // モンスターをランダムで配置する
+            30.Times((i) => {
+                var monster = _monsterScene.Instantiate();
+                monster.Position = new Vector2(GD.RandRange(left, right), GD.RandRange(top, bottom));
+                GetParent().CallDeferred("add_child", monster);
+            });
         }
     }
 }
