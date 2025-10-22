@@ -1,5 +1,6 @@
 namespace leveling.player;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,18 +69,6 @@ public partial class Player : CharacterBody2D {
     public override void _Ready() {
         _startPosition = Position;
         this.BindNodes();
-        UpdateCameraLimits();
-    }
-
-    private void UpdateCameraLimits() {
-        // _currentRoom = new Vector2((int)(Position.X / (int)RoomSize.X), (int)(Position.Y / (int)RoomSize.Y));
-        // var left = _currentRoom.X * RoomSize.X;
-        // var top = _currentRoom.Y * RoomSize.Y;
-        //
-        // _camera2d.LimitLeft = (int)left;
-        // _camera2d.LimitRight = (int)(left + RoomSize.X);
-        // _camera2d.LimitTop = (int)top;
-        // _camera2d.LimitBottom = (int)(top + RoomSize.Y);
     }
 
     public override void _PhysicsProcess(double delta) {
@@ -95,7 +84,12 @@ public partial class Player : CharacterBody2D {
         Velocity = input * Speed;
         MoveAndSlide();
 
-        UpdateCameraLimits();
+        float speed = 1.0f;
+        float t = (float)(1 - Math.Pow(0.001, delta * speed));
+        _camera2d.LimitLeft = (int)Mathf.Lerp(_camera2d.LimitLeft, _targetLeft, t);
+        _camera2d.LimitTop = (int)Mathf.Lerp(_camera2d.LimitTop, _targetTop, t);
+        _camera2d.LimitRight = (int)Mathf.Lerp(_camera2d.LimitRight, _targetRight, t);
+        _camera2d.LimitBottom = (int)Mathf.Lerp(_camera2d.LimitBottom, _targetBottom, t);
     }
 
     public async Task Damage(int damage) {
@@ -115,11 +109,26 @@ public partial class Player : CharacterBody2D {
         }
     }
 
+    private int _targetLeft = 0;
+    private int _targetTop = 0;
+    private int _targetRight = 0;
+    private int _targetBottom = 0;
     public void SetCameraLimit(int left, int top, int right, int bottom) {
         GD.Print($"left: {left}, top: {top}, right: {right}, bottom: {bottom}");
-        _camera2d.LimitLeft   = left;
-        _camera2d.LimitTop    = top;
-        _camera2d.LimitRight  = right;
-        _camera2d.LimitBottom = bottom;
+
+        _targetLeft = left;
+        _targetTop = top;
+        _targetRight = right;
+        _targetBottom = bottom;
+
+        // var tween = CreateTween();
+        // tween.SetTrans(Tween.TransitionType.Sine)
+        //     .SetEase(Tween.EaseType.InOut);
+        //
+        // // limit値も同時に補間
+        // tween.Parallel().TweenProperty(_camera2d, "limit_left", left, 1.0f);
+        // tween.Parallel().TweenProperty(_camera2d, "limit_top", top, 1.0f);
+        // tween.Parallel().TweenProperty(_camera2d, "limit_right", right, 1.0f);
+        // tween.Parallel().TweenProperty(_camera2d, "limit_bottom", bottom, 1.0f);
     }
 }

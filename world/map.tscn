@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://doiyt4sj3k8ao" path="res://world/Map.cs" id="1_lx1ux"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uvqf1"]
-size = Vector2(9600, 9600)
+size = Vector2(960, 960)
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_lx1ux")
@@ -11,5 +11,5 @@ script = ExtResource("1_lx1ux")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(4800, 4800)
+position = Vector2(480, 480)
 shape = SubResource("RectangleShape2D_uvqf1")
