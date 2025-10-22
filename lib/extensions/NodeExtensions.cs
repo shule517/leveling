@@ -45,7 +45,7 @@ public static class NodeExtensions {
                 // _hpProgressBar => HpProgressBarを取得する
                 var fieldName = field.Name.TrimStart('_');
                 var path = $"{char.ToUpper(fieldName[0])}{fieldName.Substring(1)}".Replace("2d", "2D");
-                var node = me.GetNode<Node>(path);
+                var node = me.FindChild(path, recursive: true, owned: false);
                 if (node == null) {
                     throw new InvalidOperationException($"Nodeが見つかりませんでした。class: {me.GetType()}, path: {path}");
                 }

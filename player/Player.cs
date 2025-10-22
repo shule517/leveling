@@ -72,14 +72,14 @@ public partial class Player : CharacterBody2D {
     }
 
     private void UpdateCameraLimits() {
-        _currentRoom = new Vector2((int)(Position.X / (int)RoomSize.X), (int)(Position.Y / (int)RoomSize.Y));
-        var left = _currentRoom.X * RoomSize.X;
-        var top = _currentRoom.Y * RoomSize.Y;
-
-        _camera2d.LimitLeft = (int)left;
-        _camera2d.LimitRight = (int)(left + RoomSize.X);
-        _camera2d.LimitTop = (int)top;
-        _camera2d.LimitBottom = (int)(top + RoomSize.Y);
+        // _currentRoom = new Vector2((int)(Position.X / (int)RoomSize.X), (int)(Position.Y / (int)RoomSize.Y));
+        // var left = _currentRoom.X * RoomSize.X;
+        // var top = _currentRoom.Y * RoomSize.Y;
+        //
+        // _camera2d.LimitLeft = (int)left;
+        // _camera2d.LimitRight = (int)(left + RoomSize.X);
+        // _camera2d.LimitTop = (int)top;
+        // _camera2d.LimitBottom = (int)(top + RoomSize.Y);
     }
 
     public override void _PhysicsProcess(double delta) {
@@ -113,5 +113,13 @@ public partial class Player : CharacterBody2D {
             Position = _startPosition;
             Hp = 30;
         }
+    }
+
+    public void SetCameraLimit(int left, int top, int right, int bottom) {
+        GD.Print($"left: {left}, top: {top}, right: {right}, bottom: {bottom}");
+        _camera2d.LimitLeft   = left;
+        _camera2d.LimitTop    = top;
+        _camera2d.LimitRight  = right;
+        _camera2d.LimitBottom = bottom;
     }
 }
