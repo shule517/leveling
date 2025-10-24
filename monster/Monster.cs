@@ -15,6 +15,7 @@ public partial class Monster : CharacterBody2D {
         new("res://features/battle/floating_damage/floating_damage.tscn");
 
     [Node] private Timer _attackTimer = null!;
+    [Node] private Timer _walkTimer = null!;
     [Node] private Circle2D _circle2D = null!;
     [Node] private Label _nameLabel = null!;
 
@@ -44,6 +45,17 @@ public partial class Monster : CharacterBody2D {
     public override void _Ready() {
         this.BindNodes();
         _nameLabel.Text = Name;
+        _walkTimer.WaitTime = GD.RandRange(3, 10);
+        _walkTimer.Timeout += WalkTimerOnTimeout;
+        _walkTimer.Start();
+    }
+
+    private void WalkTimerOnTimeout() {
+        GD.Print("WalkTimerOnTimeout");
+        _walkTimer.WaitTime = GD.RandRange(3, 10);
+        var toX = Position.X + (GD.RandRange(-5, 5) * Player.CellSize);
+        var toY = Position.Y + (GD.RandRange(-5, 5) * Player.CellSize);
+        CreateTween().TweenProperty(this, "position", new Vector2(toX, toY), 3);
     }
 
     public override void _PhysicsProcess(double delta) {

@@ -55,6 +55,8 @@ text = "モンスター名"
 label_settings = SubResource("LabelSettings_ck3l0")
 horizontal_alignment = 1
 
+[node name="WalkTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="VisionArea2D" to="." method="_on_vision_area_2d_body_entered"]
 [connection signal="body_exited" from="VisionArea2D" to="." method="_on_vision_area_2d_body_exited"]
 [connection signal="body_entered" from="AttackArea2D" to="." method="_on_attack_area_2d_body_entered"]
