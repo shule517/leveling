@@ -15,8 +15,8 @@ public partial class Monster : CharacterBody2D {
         new("res://features/battle/floating_damage/floating_damage.tscn");
 
     [Node] private Timer _attackTimer = null!;
-
     [Node] private Circle2D _circle2D = null!;
+    [Node] private Label _nameLabel = null!;
 
     private bool _isChasing;
 
@@ -29,6 +29,8 @@ public partial class Monster : CharacterBody2D {
     // 描画
     private float _size = 16;
     private float _slowDistance = 48f; // 減速開始距離
+
+    [Export] public string Name = "ポリン";
     [Export] public Color Color = new("f27d73");
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
@@ -41,6 +43,7 @@ public partial class Monster : CharacterBody2D {
 
     public override void _Ready() {
         this.BindNodes();
+        _nameLabel.Text = Name;
     }
 
     public override void _PhysicsProcess(double delta) {
