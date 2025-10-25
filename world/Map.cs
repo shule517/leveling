@@ -45,6 +45,14 @@ public partial class Map : Node2D
             30.Times((i) => {
                 var monster = _monsterScene.Instantiate();
                 monster.Position = new Vector2(GD.RandRange(left, right), GD.RandRange(top, bottom));
+                // TODO: 仮実装
+                if (GD.RandRange(1, 2) == 1) {
+                    monster.LineWidth = 1;
+                    monster.Name = "ポリン";
+                } else {
+                    monster.LineWidth = 3;
+                    monster.Name = "ポポリン";
+                }
                 GetParent().CallDeferred("add_child", monster);
             });
         }
