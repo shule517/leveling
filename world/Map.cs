@@ -1,4 +1,5 @@
 using Godot;
+using leveling.domains.extensions;
 using leveling.lib;
 using leveling.lib.attributes;
 using leveling.lib.extensions;
@@ -50,12 +51,12 @@ public partial class Map : Node2D
                     monster.LineWidth = 1;
                     monster.Hp = 5;
                     monster.Name = "ポリン";
-                    monster.WalkSpeed = (int)(Player.CellSize / (400 / 1000f));
+                    monster.WalkSpeed = 400.ToWalkSpeed();
                 } else {
                     monster.LineWidth = 3;
                     monster.Hp = 8;
                     monster.Name = "ポポリン";
-                    monster.WalkSpeed = (int)(Player.CellSize / (200 / 1000f));
+                    monster.WalkSpeed = 300.ToWalkSpeed();
                 }
                 GetParent().CallDeferred("add_child", monster);
             });

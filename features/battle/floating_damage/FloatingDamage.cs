@@ -16,7 +16,7 @@ public partial class FloatingDamage : Node2D {
         this.BindNodes();
 
         _moveX *= -1;
-        _label.Text = "123";
+        _label.Text = GD.RandRange(80, 120).ToString();
         Scale = Vector2.One * 1.5f;
 
         var tween = CreateTween();

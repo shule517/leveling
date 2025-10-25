@@ -21,7 +21,10 @@ public partial class MagicianState : JobState {
         if (Input.IsActionPressed("button_y")) {
             // 範囲内にモンスターがいる時だけ長押しできる
             var monster = Player.AttackMonster(9);
-            if (monster == null) { return; }
+            if (monster == null) {
+                Player.CanMove = true;
+                return;
+            }
 
             Player.CanMove = false;
             _buttonYPressedTime += delta;
