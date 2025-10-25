@@ -13,6 +13,14 @@ using player;
 public partial class Monster : CharacterBody2D {
     private static readonly Scene<FloatingDamage> _floatingDamageScene = new("res://features/battle/floating_damage/floating_damage.tscn");
 
+    // パラメータ
+    [Export] public string Name = "ポリン";
+    [Export] public int LineWidth = 1;
+    [Export] public int Hp = 5;
+    [Export] public bool IsActive; // アクティブ or ノンアクティブ
+    [Export] public Color Color = new("f27d73");
+
+    // component
     [Node] private Timer _attackTimer = null!;
     [Node] private Timer _walkTimer = null!;
     [Node] private Circle2D _circle2D = null!;
@@ -29,12 +37,6 @@ public partial class Monster : CharacterBody2D {
     // 描画
     private float _size = 16;
     private float _slowDistance = 48f; // 減速開始距離
-
-    [Export] public string Name = "ポリン";
-    [Export] public Color Color = new("f27d73");
-    [Export] public int LineWidth = 1;
-    [Export] public int Hp = 5;
-    [Export] public bool IsActive; // アクティブ or ノンアクティブ
 
     // ダメージ判定
     private bool IsDamage {

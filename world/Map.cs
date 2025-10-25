@@ -48,9 +48,11 @@ public partial class Map : Node2D
                 // TODO: 仮実装
                 if (GD.RandRange(1, 2) == 1) {
                     monster.LineWidth = 1;
+                    monster.Hp = 5;
                     monster.Name = "ポリン";
                 } else {
                     monster.LineWidth = 3;
+                    monster.Hp = 8;
                     monster.Name = "ポポリン";
                 }
                 GetParent().CallDeferred("add_child", monster);
