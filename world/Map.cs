@@ -50,10 +50,12 @@ public partial class Map : Node2D
                     monster.LineWidth = 1;
                     monster.Hp = 5;
                     monster.Name = "ポリン";
+                    monster.WalkSpeed = (int)(Player.CellSize / (400 / 1000f));
                 } else {
                     monster.LineWidth = 3;
                     monster.Hp = 8;
                     monster.Name = "ポポリン";
+                    monster.WalkSpeed = (int)(Player.CellSize / (200 / 1000f));
                 }
                 GetParent().CallDeferred("add_child", monster);
             });

@@ -19,6 +19,7 @@ public partial class Monster : CharacterBody2D {
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
     [Export] public Color Color = new("f27d73");
+    [Export] public int WalkSpeed = 100; // 1秒間に100px動く
 
     // component
     [Node] private Timer _attackTimer = null!;
@@ -27,7 +28,6 @@ public partial class Monster : CharacterBody2D {
     [Node] private Label _nameLabel = null!;
 
     private bool _isChasing; // 追跡中
-    private float _maxSpeed = 80f; // 追跡速度
     private float _minDistance = 16f; // Playerとの最小距離
 
     private Player? _player;
@@ -53,7 +53,7 @@ public partial class Monster : CharacterBody2D {
         _circle2D.LineWidth = LineWidth;
 
         _nameLabel.Text = Name;
-        _walkTimer.WaitTime = GD.RandRange(0, 10);
+        _walkTimer.WaitTime = GD.RandRange(0.1, 10);
         _walkTimer.Timeout += WalkTimerOnTimeout;
         _walkTimer.Start();
     }
@@ -68,7 +68,10 @@ public partial class Monster : CharacterBody2D {
             _walkTween = CreateTween();
             var toX = Position.X + (GD.RandRange(-5, 5) * Player.CellSize);
             var toY = Position.Y + (GD.RandRange(-5, 5) * Player.CellSize);
-            _walkTween.TweenProperty(this, "position", new Vector2(toX, toY), 3);
+            var toPosition = new Vector2(toX, toY);
+
+            var duration = Position.DistanceTo(toPosition) / WalkSpeed;
+            _walkTween.TweenProperty(this, "position", toPosition, duration);
         }
     }
 
@@ -91,7 +94,7 @@ public partial class Monster : CharacterBody2D {
             if (distance < _slowDistance) { speedFactor = distance / _slowDistance; } // 近づくほど減速
 
             var direction = (_player.Position - Position).Normalized();
-            Velocity = direction * _maxSpeed * speedFactor;
+            Velocity = direction * WalkSpeed * speedFactor;
             MoveAndSlide();
         }
     }
