@@ -11,8 +11,7 @@ using player;
 
 [Tool]
 public partial class Monster : CharacterBody2D {
-    private static readonly Scene<FloatingDamage> _floatingDamageScene =
-        new("res://features/battle/floating_damage/floating_damage.tscn");
+    private static readonly Scene<FloatingDamage> _floatingDamageScene = new("res://features/battle/floating_damage/floating_damage.tscn");
 
     [Node] private Timer _attackTimer = null!;
     [Node] private Timer _walkTimer = null!;
@@ -33,6 +32,7 @@ public partial class Monster : CharacterBody2D {
 
     [Export] public string Name = "ポリン";
     [Export] public Color Color = new("f27d73");
+    [Export] public int LineWidth = 1;
     [Export] public int Hp = 5;
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
 
@@ -44,6 +44,11 @@ public partial class Monster : CharacterBody2D {
 
     public override void _Ready() {
         this.BindNodes();
+
+        // モンスターの本体の描画設定
+        _circle2D.Color = Color;
+        _circle2D.LineWidth = LineWidth;
+
         _nameLabel.Text = Name;
         _walkTimer.WaitTime = GD.RandRange(3, 10);
         _walkTimer.Timeout += WalkTimerOnTimeout;
@@ -51,7 +56,6 @@ public partial class Monster : CharacterBody2D {
     }
 
     private void WalkTimerOnTimeout() {
-        GD.Print("WalkTimerOnTimeout");
         _walkTimer.WaitTime = GD.RandRange(3, 10);
         var toX = Position.X + (GD.RandRange(-5, 5) * Player.CellSize);
         var toY = Position.Y + (GD.RandRange(-5, 5) * Player.CellSize);
