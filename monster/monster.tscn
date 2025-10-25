@@ -26,10 +26,10 @@ script = ExtResource("1_gsx7y")
 visible = false
 shape = SubResource("CircleShape2D_rurpn")
 
-[node name="VisionArea2D" type="Area2D" parent="."]
+[node name="ViewArea2D" type="Area2D" parent="."]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ViewArea2D"]
 shape = SubResource("CircleShape2D_4b2d1")
 
 [node name="AttackArea2D" type="Area2D" parent="."]
@@ -57,8 +57,6 @@ horizontal_alignment = 1
 
 [node name="WalkTimer" type="Timer" parent="."]
 
-[connection signal="body_entered" from="VisionArea2D" to="." method="_on_vision_area_2d_body_entered"]
-[connection signal="body_exited" from="VisionArea2D" to="." method="_on_vision_area_2d_body_exited"]
 [connection signal="body_entered" from="AttackArea2D" to="." method="_on_attack_area_2d_body_entered"]
 [connection signal="body_exited" from="AttackArea2D" to="." method="_on_attack_area_2d_body_exited"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

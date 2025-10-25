@@ -28,8 +28,9 @@ public partial class Monster : CharacterBody2D {
     [Node] private Timer _walkTimer = null!;
     [Node] private Circle2D _circle2D = null!;
     [Node] private Label _nameLabel = null!;
+    [Node] private Area2D _viewArea2D = null!;
+    [Node("ViewArea2D/CollisionShape2D")] private CollisionShape2D _viewCollisionShape2D = null!;
     [Node("AttackArea2D/CollisionShape2D")] private CollisionShape2D _attackCollisionShape2D = null!;
-    [Node("VisionArea2D/CollisionShape2D")] private CollisionShape2D _visionCollisionShape2D = null!;
 
     private bool _isChasing; // 追跡中
     private float _minDistance = 16f; // Playerとの最小距離
@@ -60,7 +61,11 @@ public partial class Monster : CharacterBody2D {
         // 攻撃範囲
         ((CircleShape2D)_attackCollisionShape2D.Shape).Radius = AttackRange * Player.CellSize;
         // 追跡範囲
-        ((CircleShape2D)_visionCollisionShape2D.Shape).Radius = ChaseRange * Player.CellSize;
+        ((CircleShape2D)_viewCollisionShape2D.Shape).Radius = ChaseRange * Player.CellSize;
+
+        // モンスターの感知
+        _viewArea2D.BodyEntered += _on_view_area_2d_body_entered;
+        _viewArea2D.BodyExited += _on_view_area_2d_body_exited;
 
         // 歩くタイマー
         _walkTimer.WaitTime = GD.RandRange(0.1, 10);
@@ -133,7 +138,7 @@ public partial class Monster : CharacterBody2D {
         if (Hp <= 0) { QueueFree(); }
     }
 
-    private void _on_vision_area_2d_body_entered(Node2D body) {
+    private void _on_view_area_2d_body_entered(Node2D body) {
         if (body is Player player) {
             _player = player;
             if (IsActive) {
@@ -142,7 +147,7 @@ public partial class Monster : CharacterBody2D {
         }
     }
 
-    private void _on_vision_area_2d_body_exited(Node2D body) {
+    private void _on_view_area_2d_body_exited(Node2D body) {
         if (body is Player) { _isChasing = false; }
     }
 
