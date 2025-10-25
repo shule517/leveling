@@ -20,12 +20,16 @@ public partial class Monster : CharacterBody2D {
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
     [Export] public Color Color = new("f27d73");
     [Export] public int WalkSpeed = 100; // 1秒間に100px動く
+    [Export] public int AttackRange = 1;
+    [Export] public int ChaseRange = 12;
 
     // component
     [Node] private Timer _attackTimer = null!;
     [Node] private Timer _walkTimer = null!;
     [Node] private Circle2D _circle2D = null!;
     [Node] private Label _nameLabel = null!;
+    [Node("AttackArea2D/CollisionShape2D")] private CollisionShape2D _attackCollisionShape2D = null!;
+    [Node("VisionArea2D/CollisionShape2D")] private CollisionShape2D _visionCollisionShape2D = null!;
 
     private bool _isChasing; // 追跡中
     private float _minDistance = 16f; // Playerとの最小距離
@@ -51,15 +55,21 @@ public partial class Monster : CharacterBody2D {
         // モンスターの本体の描画設定
         _circle2D.Color = Color;
         _circle2D.LineWidth = LineWidth;
-
         _nameLabel.Text = Name;
+
+        // 攻撃範囲
+        ((CircleShape2D)_attackCollisionShape2D.Shape).Radius = AttackRange * Player.CellSize;
+        // 追跡範囲
+        ((CircleShape2D)_visionCollisionShape2D.Shape).Radius = ChaseRange * Player.CellSize;
+
+        // 歩くタイマー
         _walkTimer.WaitTime = GD.RandRange(0.1, 10);
         _walkTimer.Timeout += WalkTimerOnTimeout;
         _walkTimer.Start();
     }
 
+    // 歩くモーション
     private Tween? _walkTween;
-
     private void WalkTimerOnTimeout() {
         _walkTimer.WaitTime = GD.RandRange(3, 10);
 
@@ -77,7 +87,6 @@ public partial class Monster : CharacterBody2D {
 
     public override void _PhysicsProcess(double delta) {
         if (Engine.IsEditorHint()) { return; }
-
         if (_player == null) { return; }
 
         if (!_isChasing) {
@@ -104,7 +113,6 @@ public partial class Monster : CharacterBody2D {
 
         // 点滅
         IsDamage = true;
-
         Input.StartJoyVibration(0, 0, 0.4f, 0.1f);
 
         // ダメージ表示

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using domains.extensions;
 using Godot;
 using lib.attributes;
 using lib.custom_nodes.box2d;
@@ -25,8 +26,7 @@ public partial class Player : CharacterBody2D {
     private Vector2 _startPosition;
 
     [Export] public Color Color = new(0.9f, 0.2f, 0.2f);
-    [Export] public Vector2 RoomSize = new(512 * 2, 352 * 2); // 1部屋のサイズ
-    [Export] public float Speed = 130f; // 移動速度
+    [Export] public int WalkSpeed; // 歩く速度
 
     [Export]
     public int Hp {
@@ -69,6 +69,7 @@ public partial class Player : CharacterBody2D {
     public override void _Ready() {
         _startPosition = Position;
         this.BindNodes();
+        WalkSpeed = 150.ToWalkSpeed();
     }
 
     public override void _PhysicsProcess(double delta) {
@@ -81,7 +82,7 @@ public partial class Player : CharacterBody2D {
 
         // 左スティックで移動
         var input = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        Velocity = input * Speed;
+        Velocity = input * WalkSpeed;
         MoveAndSlide();
 
         float speed = 1.0f;
