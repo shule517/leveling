@@ -26,9 +26,7 @@ public partial class Monster : CharacterBody2D {
     [Node] private Circle2D _circle2D = null!;
     [Node] private Label _nameLabel = null!;
 
-    private bool _isChasing;
-
-    // 追跡パラメータ
+    private bool _isChasing; // 追跡中
     private float _maxSpeed = 80f; // 追跡速度
     private float _minDistance = 16f; // Playerとの最小距離
 
@@ -41,7 +39,10 @@ public partial class Monster : CharacterBody2D {
     // ダメージ判定
     private bool IsDamage {
         get => _circle2D.IsFilled;
-        set => _circle2D.IsFilled = value;
+        set {
+            _circle2D.IsFilled = value;
+            _walkTween?.Stop();
+        }
     }
 
     public override void _Ready() {
@@ -52,16 +53,23 @@ public partial class Monster : CharacterBody2D {
         _circle2D.LineWidth = LineWidth;
 
         _nameLabel.Text = Name;
-        _walkTimer.WaitTime = GD.RandRange(3, 10);
+        _walkTimer.WaitTime = GD.RandRange(0, 10);
         _walkTimer.Timeout += WalkTimerOnTimeout;
         _walkTimer.Start();
     }
 
+    private Tween? _walkTween;
+
     private void WalkTimerOnTimeout() {
         _walkTimer.WaitTime = GD.RandRange(3, 10);
-        var toX = Position.X + (GD.RandRange(-5, 5) * Player.CellSize);
-        var toY = Position.Y + (GD.RandRange(-5, 5) * Player.CellSize);
-        CreateTween().TweenProperty(this, "position", new Vector2(toX, toY), 3);
+
+        if (!_isChasing) {
+            _walkTween?.Stop();
+            _walkTween = CreateTween();
+            var toX = Position.X + (GD.RandRange(-5, 5) * Player.CellSize);
+            var toY = Position.Y + (GD.RandRange(-5, 5) * Player.CellSize);
+            _walkTween.TweenProperty(this, "position", new Vector2(toX, toY), 3);
+        }
     }
 
     public override void _PhysicsProcess(double delta) {
