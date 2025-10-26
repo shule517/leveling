@@ -20,6 +20,7 @@ public partial class Monster : CharacterBody2D {
     [Export] public bool IsActive; // アクティブ or ノンアクティブ
     [Export] public Color Color = new("f27d73");
     [Export] public int WalkSpeed = 100; // 1秒間に100px動く
+    [Export] public int AttackDelay = 1800;
     [Export] public int AttackRange = 1;
     [Export] public int ChaseRange = 12;
 
@@ -62,6 +63,9 @@ public partial class Monster : CharacterBody2D {
         ((CircleShape2D)_attackCollisionShape2D.Shape).Radius = AttackRange * Player.CellSize;
         // 追跡範囲
         ((CircleShape2D)_viewCollisionShape2D.Shape).Radius = ChaseRange * Player.CellSize;
+
+        // 攻撃
+        _attackTimer.WaitTime = AttackDelay / 1000f;
 
         // モンスターの感知
         _viewArea2D.BodyEntered += _on_view_area_2d_body_entered;

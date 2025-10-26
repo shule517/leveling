@@ -47,16 +47,60 @@ public partial class Map : Node2D
                 var monster = _monsterScene.Instantiate();
                 monster.Position = new Vector2(GD.RandRange(left, right), GD.RandRange(top, bottom));
                 // TODO: 仮実装
-                if (GD.RandRange(1, 2) == 1) {
+
+                var num = GD.RandRange(0, 3);
+                if (num == 0) {
                     monster.LineWidth = 1;
                     monster.Hp = 5;
                     monster.Name = "ポリン";
                     monster.WalkSpeed = 400.ToWalkSpeed();
-                } else {
+                    monster.AttackDelay = 1872; // 次に攻撃ができるまでの時間(ms)
+                    // monster.AttackMotion = 672; // 攻撃中に動けない時間(ms) 1.8秒中の0.6秒が動けない
+                    // monster.DamageMotion = 480; // ダメージを受けたあとの硬直時間(ms)
+                    // monster.CastSensorChase = false; // 詠唱反応
+                    // monster.Assist = false; // 同種モンスターが攻撃されてたら援護にくる
+                    // monster.Looter = true; // アイテムを拾いにくる
+                    monster.IsActive = false;
+                } else if (num == 1) {
                     monster.LineWidth = 3;
                     monster.Hp = 8;
                     monster.Name = "ポポリン";
                     monster.WalkSpeed = 300.ToWalkSpeed();
+                    monster.AttackDelay = 1672; // 次に攻撃ができるまでの時間(ms)
+                    // monster.AttackMotion = 672;
+                    // monster.DamageMotion = 480;
+                    // monster.CastSensorChase = false;
+                    // monster.Assist = false; // 同種モンスターが攻撃されてたら援護にくる
+                    // monster.Looter = true; // アイテムを拾いにくる
+                    monster.IsActive = false;
+                } else if (num == 2) {
+                    monster.LineWidth = 1;
+                    monster.Hp = 12;
+                    monster.Name = "マンドラゴラ";
+                    monster.WalkSpeed = 0;
+                    monster.AttackDelay = 1768;
+                    // monster.AttackMotion = 768;
+                    // monster.DamageMotion = 576;
+                    // monster.CastSensorChase = false;
+                    // monster.Assist = false; // 同種モンスターが攻撃されてたら援護にくる
+                    // monster.Looter = false; // アイテムを拾いにくる
+                    monster.AttackRange = 4;
+                    monster.Color = new Color(1, 0, 0);
+                    monster.IsActive = true;
+                } else if (num == 3) {
+                    monster.LineWidth = 1;
+                    monster.Hp = 12;
+                    monster.Name = "マーター";
+                    monster.WalkSpeed = 150.ToWalkSpeed();
+                    monster.AttackDelay = 432;
+                    // monster.AttackMotion = 432;
+                    // monster.DamageMotion = 360;
+                    // monster.CastSensorChase = false;
+                    // monster.Assist = false; // 同種モンスターが攻撃されてたら援護にくる
+                    // monster.Looter = false; // アイテムを拾いにくる
+                    monster.AttackRange = 1;
+                    monster.Color = new Color(0, 0, 0);
+                    monster.IsActive = true;
                 }
                 GetParent().CallDeferred("add_child", monster);
             });
