@@ -99,7 +99,7 @@ public partial class Player : CharacterBody2D {
         // 点滅
         IsDamage = true;
         _isStunned = true;
-        await this.WaitSeconds(0.1f);
+        await this.WaitSeconds(0.19f); // ダメージ硬直
         IsDamage = false;
         _isStunned = false;
 
